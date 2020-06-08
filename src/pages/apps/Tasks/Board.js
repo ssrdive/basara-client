@@ -103,22 +103,22 @@ class Board extends Component {
                                     <label className="font-weight-bold d-inline mr-2"><Briefcase className="icon-dual icon-xs mr-2" data-feather="hard-drive"></Briefcase>Project: </label>
                                     <UncontrolledDropdown className="d-inline">
                                         <DropdownToggle tag="a" className="dropdown-toggle p-0 arrow-none font-weight-bold cursor-pointer">
-                                            Agrivest
+                                            Nciller
                                             <i className='uil uil-angle-down font-size-16 align-middle ml-1'></i>
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             <DropdownItem>
-                                                <HardDrive className="icon-dual icon-xs mr-2"></HardDrive>Agrivest
+                                                <HardDrive className="icon-dual icon-xs mr-2"></HardDrive>Nciller
                                             </DropdownItem>
                                             <DropdownItem>
                                                 <Briefcase className="icon-dual icon-xs mr-2" data-feather="briefcase"></Briefcase>Development
                                             </DropdownItem>
                                             <DropdownItem divider />
                                             <DropdownItem>
-                                                <FolderPlus className="icon-dual icon-xs mr-2" data-feather="briefcase"></FolderPlus>Agrivest
+                                                <FolderPlus className="icon-dual icon-xs mr-2" data-feather="briefcase"></FolderPlus>Nciller
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <FolderPlus className="icon-dual icon-xs mr-2" data-feather="briefcase"></FolderPlus>Agrivest
+                                                <FolderPlus className="icon-dual icon-xs mr-2" data-feather="briefcase"></FolderPlus>Nciller
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledDropdown>

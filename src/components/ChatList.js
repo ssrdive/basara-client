@@ -107,7 +107,7 @@ class ChatList extends Component {
         this.setState({
             messages: this.state.messages.concat({
                 id: this.state.messages.length + 1,
-                userName: 'Agrivest',
+                userName: 'Nciller',
                 text: message.text,
                 postedOn: '10:00',
             }),

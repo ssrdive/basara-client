@@ -19,8 +19,8 @@ import { getLoggedInUser } from '../helpers/authUtils';
 const UserProfile = () => {
     return <React.Fragment>
         <div className="media user-profile mt-2 mb-2">
-            <img src={profilePic} className="avatar-sm rounded-circle mr-2" alt="Agrivest" />
-            <img src={profilePic} className="avatar-xs rounded-circle mr-2" alt="Agrivest" />
+            <img src={profilePic} className="avatar-sm rounded-circle mr-2" alt="Nciller" />
+            <img src={profilePic} className="avatar-xs rounded-circle mr-2" alt="Nciller" />
 
             <div className="media-body">
                 <h6 className="pro-user-name mt-0 mb-0">{getLoggedInUser().name}</h6>

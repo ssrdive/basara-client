@@ -74,7 +74,7 @@ class Login extends Component {
                                                 <div className="mx-auto mb-5">
                                                     <a href="/">
                                                         <img src={logo} alt="" height="24" />
-                                                        <h3 className="d-inline align-middle ml-1 text-logo">Agrivest</h3>
+                                                        <h3 className="d-inline align-middle ml-1 text-logo">Nciller</h3>
                                                     </a>
                                                 </div>
 

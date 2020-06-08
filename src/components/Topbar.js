@@ -94,7 +94,7 @@ class Topbar extends Component {
             <Link to="/" className="navbar-brand mr-0 mr-md-2 logo">
               <span className="logo-lg">
                 <img src={logo} alt="" height="24" />
-                <span className="d-inline h5 ml-2 text-logo">Agrivest</span>
+                <span className="d-inline h5 ml-2 text-logo">Nciller</span>
               </span>
               <span className="logo-sm">
                 <img src={logo} alt="" height="24" />
