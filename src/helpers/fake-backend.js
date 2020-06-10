@@ -1,4 +1,4 @@
-import api from '../cidium-api';
+import api from '../basara-api';
 import qs from 'qs';
 
 export function configureFakeBackend() {
