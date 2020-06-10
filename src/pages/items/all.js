@@ -53,6 +53,8 @@ const AllItems = () => {
                                             <th>Category ID</th>
                                             <th>Page Number</th>
                                             <th>Item Number</th>
+                                            <th>Foreign ID</th>
+                                            <th>Item Name</th>
                                             <th>Price</th>
                                         </tr>
                                     </thead>
@@ -65,6 +67,8 @@ const AllItems = () => {
                                                     <td>{item.item_category_id}</td>
                                                     <td>{item.page_no}</td>
                                                     <td>{item.item_no}</td>
+                                                    <td>{item.foreign_id}</td>
+                                                    <td>{item.item_name}</td>
                                                     <td>{item.price.toLocaleString()}</td>
                                                 </tr>
                                             );

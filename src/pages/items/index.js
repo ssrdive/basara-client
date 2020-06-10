@@ -65,6 +65,8 @@ const CreateItem = () => {
         category: DROPDOWN_DEFAULT,
         page_number: NUMBER_INPUT_REQUIRED,
         item_number: TEXT_INPUT_REQUIRED,
+        foreign_id: TEXT_INPUT_REQUIRED,
+        item_name: TEXT_INPUT_REQUIRED,
         price: NUMBER_INPUT_REQUIRED,
     });
 
@@ -97,6 +99,8 @@ const CreateItem = () => {
                     item_category_id: form.category.value,
                     page_no: form.page_number.value,
                     item_no: form.item_number.value,
+                    foreign_id: form.foreign_id.value,
+                    item_name: form.item_name.value,
                     price: form.price.value,
                 })
             )
@@ -139,7 +143,7 @@ const CreateItem = () => {
                 <Row>
                     <Col lg={12}>
                         <Form onSubmit={handleFormSubmit}>
-                            <Badge color="info" className="mr-1">
+                            <Badge color="success" className="mr-1">
                                 Item Code
                             </Badge>
                             <Label>{form.model.value}{form.category.value}{form.page_number.value}{form.item_number.value}</Label>
@@ -174,6 +178,24 @@ const CreateItem = () => {
                                     {...form['item_number']}
                                     name="item_number"
                                     placeholder="ZF.1AB"
+                                    handleOnChange={handleOnChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="text">Foreign ID</Label>
+                                <FormInput
+                                    {...form['foreign_id']}
+                                    name="foreign_id"
+                                    placeholder="1W.AFZFD"
+                                    handleOnChange={handleOnChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="text">Item Name</Label>
+                                <FormInput
+                                    {...form['item_name']}
+                                    name="item_name"
+                                    placeholder="Piston"
                                     handleOnChange={handleOnChange}
                                 />
                             </FormGroup>
