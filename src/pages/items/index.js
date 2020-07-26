@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import qs from 'qs';
 import { apiAuth } from '../../basara-api';
 import { getLoggedInUser } from '../../helpers/authUtils';

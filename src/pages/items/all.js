@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Col, Table, Spinner, Card, CardBody } from 'reactstrap';
 import { apiAuth } from '../../basara-api';
 
 import PageTitle from '../../components/PageTitle';
 
 
-const AllItems = () => {
+export default () => {
 
     const [items, setItems] = useState(null);
 
@@ -62,7 +63,7 @@ const AllItems = () => {
                                         {items.map((item, index) => {
                                             return (
                                                 <tr key={index}>
-                                                    <td>{item.item_id}</td>
+                                                    <td><Link to={'/items/edit/' + item.id}>{item.item_id}</Link></td>
                                                     <td>{item.model_id}</td>
                                                     <td>{item.item_category_id}</td>
                                                     <td>{item.page_no}</td>
@@ -85,5 +86,3 @@ const AllItems = () => {
         </React.Fragment>
     );
 };
-
-export default AllItems;
