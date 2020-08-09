@@ -12,13 +12,13 @@ const Chat = () => {
         {
             id: 2,
             userPic: profilePic,
-            userName: 'Nciller',
+            userName: 'FarmGear',
             text: 'Hi, How are you? What about our next meeting?',
             postedOn: '10:01',
         },
         { id: 3, userPic: profilePic2, userName: 'Geneva', text: 'Yeah everything is fine', postedOn: '10:02' },
-        { id: 4, userPic: profilePic, userName: 'Nciller', text: "Wow that's great!", postedOn: '10:03' },
-        { id: 5, userPic: profilePic, userName: 'Nciller', text: 'Cool!', postedOn: '10:03' },
+        { id: 4, userPic: profilePic, userName: 'FarmGear', text: "Wow that's great!", postedOn: '10:03' },
+        { id: 5, userPic: profilePic, userName: 'FarmGear', text: 'Cool!', postedOn: '10:03' },
     ];
 
     return (

@@ -56,6 +56,7 @@ const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
 const Items = React.lazy(() => import('../pages/items'));
 const ItemsAll = React.lazy(() => import('../pages/items/all'));
 const ItemEdit = React.lazy(() => import('../pages/items/edit'));
+const ItemSearch = React.lazy(() => import('../pages/items/search'));
 
 // handle auth and authorization
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
@@ -122,6 +123,14 @@ const itemsSubRoute = [
         name: 'Edit Item',
         exact: true,
         component: ItemEdit,
+        route: PrivateRoute,
+        roles: ['Admin', 'Office Executive', 'Manager']
+    },
+    {
+        path: '/items/search',
+        name: 'Search Item',
+        exact: true,
+        component: ItemSearch,
         route: PrivateRoute,
         roles: ['Admin', 'Office Executive', 'Manager']
     },

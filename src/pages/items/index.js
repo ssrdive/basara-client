@@ -146,68 +146,74 @@ const CreateItem = () => {
                                 Item Code
                             </Badge>
                             <Label>{form.model.value}{form.category.value}{form.page_number.value}{form.item_number.value}</Label>
-                            <FormGroup>
-                                <Label for="text">Model</Label>
-                                <FormInput
-                                    {...form['model']}
-                                    name="model"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Category</Label>
-                                <FormInput
-                                    {...form['category']}
-                                    name="category"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Page Number</Label>
-                                <FormInput
-                                    {...form['page_number']}
-                                    name="page_number"
-                                    placeholder="009"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Item Number</Label>
-                                <FormInput
-                                    {...form['item_number']}
-                                    name="item_number"
-                                    placeholder="ZF.1AB"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Foreign ID</Label>
-                                <FormInput
-                                    {...form['foreign_id']}
-                                    name="foreign_id"
-                                    placeholder="1W.AFZFD"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Item Name</Label>
-                                <FormInput
-                                    {...form['item_name']}
-                                    name="item_name"
-                                    placeholder="Piston"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="text">Price</Label>
-                                <FormInput
-                                    {...form['price']}
-                                    name="price"
-                                    placeholder="290000"
-                                    handleOnChange={handleOnChange}
-                                />
-                            </FormGroup>
-                            <SubmitComponent />
+                            <Row>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label for="text">Model</Label>
+                                        <FormInput
+                                            {...form['model']}
+                                            name="model"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="text">Category</Label>
+                                        <FormInput
+                                            {...form['category']}
+                                            name="category"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="text">Page Number</Label>
+                                        <FormInput
+                                            {...form['page_number']}
+                                            name="page_number"
+                                            placeholder="009"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="text">Item Number</Label>
+                                        <FormInput
+                                            {...form['item_number']}
+                                            name="item_number"
+                                            placeholder="ZF.1AB"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <SubmitComponent />
+                                </Col>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label for="text">Foreign ID</Label>
+                                        <FormInput
+                                            {...form['foreign_id']}
+                                            name="foreign_id"
+                                            placeholder="1W.AFZFD"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="text">Item Name</Label>
+                                        <FormInput
+                                            {...form['item_name']}
+                                            name="item_name"
+                                            placeholder="Piston"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="text">Price</Label>
+                                        <FormInput
+                                            {...form['price']}
+                                            name="price"
+                                            placeholder="290000"
+                                            handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
                         </Form>
                     </Col>
                 </Row>
@@ -242,6 +248,49 @@ const ItemReports = ({ history }) => {
     );
 };
 
+const ItemSearch = ({ history }) => {
+    const [form, setForm] = useState({
+        search: TEXT_INPUT_REQUIRED,
+    });
+
+    const handleOnChange = e => {
+        e.persist();
+        setForm(prevForm => {
+            const updatedForm = { ...prevForm, [e.target.name]: { ...prevForm[e.target.name] } };
+            updatedForm[e.target.name].value = e.target.value;
+            return updatedForm;
+        });
+    };
+
+    const handleFormSubmit = e => {
+        e.persist();
+        e.preventDefault();
+        history.push(`/items/search?search=${form.search.value}`)
+    }
+
+    return (
+        <Card>
+            <CardBody>
+                <h4 className="header-title mt-0">Item Search</h4>
+
+                <Form onSubmit={handleFormSubmit}>
+                    <FormGroup>
+                        <FormInput
+                            {...form['search']}
+                            name="search"
+                            placeholder="Search"
+                            handleOnChange={handleOnChange}
+                        />
+                    </FormGroup>
+                    <Button color="primary" type="submit">
+                        Search
+                    </Button>
+                </Form>
+            </CardBody>
+        </Card>
+    );
+};
+
 const Items = ({ history }) => {
     return (
         <React.Fragment>
@@ -256,33 +305,20 @@ const Items = ({ history }) => {
 
             <Row>
                 <Col md={4}>
-                    <ItemReports history={history} />
+                    <Row>
+                        <Col md={12}>
+                            <ItemSearch history={history} />
+                        </Col>
+                        <Col md={12}>
+                            <ItemReports history={history} />
+                        </Col>
+                    </Row>
                 </Col>
-            </Row>
-
-            <Row>
-                <Col md={4}>
+                <Col md={8}>
                     <CreateItem />
                 </Col>
             </Row>
 
-            {/* <Row>
-                <Col>
-                    <ContractSearch />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <Commitments />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <NewContract />
-                </Col>
-            </Row> */}
         </React.Fragment>
     );
 };

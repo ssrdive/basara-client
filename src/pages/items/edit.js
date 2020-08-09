@@ -138,7 +138,7 @@ export default ({ match }) => {
             </Row>
 
             <Row>
-                <Col md={6}>
+                <Col md={4}>
                     <Card>
                         <CardBody>
                             <h4 className="header-title mt-0">Edit Details</h4>
@@ -168,7 +168,7 @@ export default ({ match }) => {
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md={6}>
+                <Col md={8}>
                     <Card>
                         <CardBody>
                             <h4 className="header-title mt-0">Current Details</h4>
@@ -178,46 +178,38 @@ export default ({ match }) => {
                                         <tr>
                                             <th>Criteria</th>
                                             <th>Value</th>
+                                            <th>Criteria</th>
+                                            <th>Value</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><b>Item ID</b></td>
                                             <td>{itemDetails.item_id}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Model ID</b></td>
-                                            <td>{itemDetails.model_id}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Model Name</b></td>
-                                            <td>{itemDetails.model_name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Category ID</b></td>
-                                            <td>{itemDetails.item_category_id}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Category Name</b></td>
-                                            <td>{itemDetails.item_category_name}</td>
-                                        </tr>
-                                        <tr>
                                             <td><b>Page No</b></td>
                                             <td>{itemDetails.page_no}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Model ID</b></td>
+                                            <td>{itemDetails.model_id}</td>
                                             <td><b>Item No</b></td>
                                             <td>{itemDetails.item_no}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Model Name</b></td>
+                                            <td>{itemDetails.model_name}</td>
                                             <td><b>Foreign ID</b></td>
                                             <td>{itemDetails.foreign_id}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Category ID</b></td>
+                                            <td>{itemDetails.item_category_id}</td>
                                             <td><b>Item Name</b></td>
                                             <td>{itemDetails.item_name}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Category Name</b></td>
+                                            <td>{itemDetails.item_category_name}</td>
                                             <td><b>Price</b></td>
                                             <td>LKR {itemDetails.price.toLocaleString()}</td>
                                         </tr>

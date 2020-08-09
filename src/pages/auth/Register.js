@@ -77,7 +77,7 @@ class Register extends Component {
                                                 <div className="mx-auto mb-5">
                                                     <a href="/">
                                                         <img src={logo} alt="" height="24" />
-                                                        <h3 className="d-inline align-middle ml-1 text-logo">Nciller</h3>
+                                                        <h3 className="d-inline align-middle ml-1 text-logo">FarmGear</h3>
                                                     </a>
                                                 </div>
 
@@ -98,7 +98,7 @@ class Register extends Component {
                                                                     <User className="icon-dual" />
                                                                 </span>
                                                             </InputGroupAddon>
-                                                            <AvInput type="text" name="fullname" id="fullname" placeholder="Nciller" required />
+                                                            <AvInput type="text" name="fullname" id="fullname" placeholder="FarmGear" required />
                                                         </InputGroup>
 
                                                         <AvFeedback>This field is invalid</AvFeedback>

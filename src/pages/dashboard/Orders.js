@@ -48,7 +48,7 @@ const Orders = () => {
                         <tr>
                             <td>#98751</td>
                             <td>Lightweight Jacket</td>
-                            <td>Nciller</td>
+                            <td>FarmGear</td>
                             <td>$49.49</td>
                             <td><span className="badge badge-soft-success py-1">Delivered</span>
                             </td>

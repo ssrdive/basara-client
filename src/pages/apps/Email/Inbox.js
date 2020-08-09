@@ -29,7 +29,7 @@ const ChatProfileUser = props => {
                         </div>
                     </div>
                     <Media body className="overflow-hidden">
-                        <h5 className="font-size-14 mt-1 mb-0">Nciller</h5>
+                        <h5 className="font-size-14 mt-1 mb-0">FarmGear</h5>
                         <small className="text-muted"><i className="uil uil-circle font-size-11 text-success"></i> Active Now</small>
                     </Media>
                     <UncontrolledButtonDropdown className="float-right mt-2">
