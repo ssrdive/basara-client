@@ -96,7 +96,8 @@ const dashboardRoute = {
     header: 'Navigation',
     icon: FeatherIcon.Home,
     component: Dashboard,
-    route: PrivateRoute
+    route: PrivateRoute,
+    roles: ['Admin', 'Office Executive', 'Manager', 'Branch User']
 };
 
 // items
@@ -107,7 +108,7 @@ const itemsRoute = {
     icon: FeatherIcon.Settings,
     component: Items,
     route: PrivateRoute,
-    roles: ['Admin', 'Office Executive', 'Manager', 'Branch User']
+    roles: ['Admin', 'Office Executive', 'Manager']
 }
 
 const itemsSubRoute = [
