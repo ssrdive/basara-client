@@ -228,7 +228,7 @@ const ItemReports = ({ history }) => {
             <CardBody>
                 <h4 className="header-title mt-0">Item Reports</h4>
                 <UncontrolledDropdown className="d-inline">
-                    <DropdownToggle color="info">
+                    <DropdownToggle color="primary">
                         Reports{' '}
                         <i className="icon">
                             <ChevronDown></ChevronDown>
