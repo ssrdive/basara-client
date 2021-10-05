@@ -18,6 +18,17 @@ const BusinessPartners = React.lazy(() => import('../pages/business-partners'));
 
 const Transactions = React.lazy(() => import('../pages/transactions'));
 
+const Financials = React.lazy(() => import('../pages/financials'));
+const FinancialsJournalEntry = React.lazy(() => import('../pages/financials/JournalEntry'));
+const FinancialsAccountLedger = React.lazy(() => import('../pages/financials/AccountLedger'));
+const FinancialsChartOfAccounts = React.lazy(() => import('../pages/financials/ChartOfAccounts'));
+const FinancialsTrialBalance = React.lazy(() => import('../pages/financials/TrialBalance'));
+const FinancialsPaymentVoucher = React.lazy(() => import('../pages/financials/PaymentVoucher'));
+const FinancialsPaymentVouchers = React.lazy(() => import('../pages/financials/PaymentVouchers'));
+const FinancialsPaymentVoucherDetails = React.lazy(() => import('../pages/financials/PaymentVoucherDetails'));
+const FinancialsDeposit = React.lazy(() => import('../pages/financials/Deposit'));
+const FinancialsTransaction = React.lazy(() => import('../pages/financials/Transaction'));
+
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
 const EmailDetail = React.lazy(() => import('../pages/apps/Email/Detail'));
@@ -66,7 +77,7 @@ const ItemSearch = React.lazy(() => import('../pages/items/search'));
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     <Route
         {...rest}
-        render={props => {
+        render={(props) => {
             if (!isUserAuthenticated()) {
                 // not logged in so redirect to login page with the return url
                 return <Redirect to={{ pathname: '/account/login', state: { from: props.location } }} />;
@@ -101,7 +112,7 @@ const dashboardRoute = {
     icon: FeatherIcon.Home,
     component: Dashboard,
     route: PrivateRoute,
-    roles: ['Admin', 'Office Executive', 'Manager', 'Branch User']
+    roles: ['Admin', 'Office Executive', 'Manager', 'Branch User'],
 };
 
 // items
@@ -112,8 +123,8 @@ const itemsRoute = {
     icon: FeatherIcon.Settings,
     component: Items,
     route: PrivateRoute,
-    roles: ['Admin', 'Office Executive', 'Manager']
-}
+    roles: ['Admin', 'Office Executive', 'Manager'],
+};
 
 const itemsSubRoute = [
     {
@@ -122,7 +133,7 @@ const itemsSubRoute = [
         exact: true,
         component: ItemsAll,
         route: PrivateRoute,
-        roles: ['Admin', 'Office Executive', 'Manager']
+        roles: ['Admin', 'Office Executive', 'Manager'],
     },
     {
         path: '/items/edit/:id',
@@ -130,7 +141,7 @@ const itemsSubRoute = [
         exact: true,
         component: ItemEdit,
         route: PrivateRoute,
-        roles: ['Admin', 'Office Executive', 'Manager']
+        roles: ['Admin', 'Office Executive', 'Manager'],
     },
     {
         path: '/items/search',
@@ -138,7 +149,7 @@ const itemsSubRoute = [
         exact: true,
         component: ItemSearch,
         route: PrivateRoute,
-        roles: ['Admin', 'Office Executive', 'Manager']
+        roles: ['Admin', 'Office Executive', 'Manager'],
     },
 ];
 
@@ -149,8 +160,8 @@ const BusinessPartnersRoute = {
     icon: FeatherIcon.Users,
     component: BusinessPartners,
     route: PrivateRoute,
-    roles: ['Admin', 'Office Executive', 'Manager']
-}
+    roles: ['Admin', 'Office Executive', 'Manager'],
+};
 
 const TransactionsRoute = {
     path: '/transactions',
@@ -159,8 +170,93 @@ const TransactionsRoute = {
     icon: FeatherIcon.Package,
     component: Transactions,
     route: PrivateRoute,
-    roles: ['Admin', 'Office Executive', 'Manager']
-}
+    roles: ['Admin', 'Office Executive', 'Manager'],
+};
+
+const financialsRoute = {
+    path: '/financials',
+    name: 'Financials',
+    icon: FeatherIcon.BarChart2,
+    component: Financials,
+    exact: true,
+    route: PrivateRoute,
+    roles: ['Admin', 'Manager'],
+};
+
+const financialsSubRoutes = [
+    {
+        path: '/financials/journal-entry',
+        name: 'Journal Entry',
+        exact: true,
+        component: FinancialsJournalEntry,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/account/:id',
+        name: 'Account Ledger',
+        exact: true,
+        component: FinancialsAccountLedger,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/chart-of-accounts',
+        name: 'Chart of Accounts',
+        exact: true,
+        component: FinancialsChartOfAccounts,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/trial-balance',
+        name: 'Trial Balance',
+        exact: true,
+        component: FinancialsTrialBalance,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/payment-voucher',
+        name: 'Payment Voucher',
+        exact: true,
+        component: FinancialsPaymentVoucher,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/payment-vouchers',
+        name: 'Payment Vouchers',
+        exact: true,
+        component: FinancialsPaymentVouchers,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/payment-voucher/:id',
+        name: 'Payment Voucher Details',
+        exact: true,
+        component: FinancialsPaymentVoucherDetails,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/deposit',
+        name: 'Deposit',
+        exact: true,
+        component: FinancialsDeposit,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/transaction/:id',
+        name: 'Transaction Details',
+        exact: true,
+        component: FinancialsTransaction,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+];
 
 // // requests
 // const requestsRoute = {
@@ -291,8 +387,6 @@ const TransactionsRoute = {
 
 // const appRoutes = [calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
-
-
 // // pages
 // const pagesRoutes = {
 //     path: '/pages',
@@ -350,7 +444,6 @@ const TransactionsRoute = {
 //     ]
 // };
 
-
 // // components
 // const componentsRoutes = {
 //     path: '/ui',
@@ -406,7 +499,6 @@ const TransactionsRoute = {
 //     route: PrivateRoute
 // }
 
-
 // // forms
 // const formsRoutes = {
 //     path: '/forms',
@@ -452,7 +544,6 @@ const TransactionsRoute = {
 //     ]
 // };
 
-
 // const tableRoutes = {
 //     path: '/tables',
 //     name: 'Tables',
@@ -471,7 +562,6 @@ const TransactionsRoute = {
 //             route: PrivateRoute,
 //         }]
 // };
-
 
 // auth
 const authRoutes = {
@@ -512,11 +602,11 @@ const authRoutes = {
 };
 
 // flatten the list of all nested routes
-const flattenRoutes = routes => {
+const flattenRoutes = (routes) => {
     let flatRoutes = [];
 
     routes = routes || [];
-    routes.forEach(item => {
+    routes.forEach((item) => {
         flatRoutes.push(item);
 
         if (typeof item.children !== 'undefined') {
@@ -534,9 +624,11 @@ const allRoutes = [
     ...itemsSubRoute,
     authRoutes,
     BusinessPartnersRoute,
-    TransactionsRoute
+    TransactionsRoute,
+    financialsRoute,
+    ...financialsSubRoutes,
 ];
 
-const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute];
+const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute, financialsRoute];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };
