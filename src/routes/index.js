@@ -29,6 +29,8 @@ const FinancialsPaymentVoucherDetails = React.lazy(() => import('../pages/financ
 const FinancialsDeposit = React.lazy(() => import('../pages/financials/Deposit'));
 const FinancialsTransaction = React.lazy(() => import('../pages/financials/Transaction'));
 
+const PurchaseOrders = React.lazy(() => import('../pages/purchase-orders'));
+
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
 const EmailDetail = React.lazy(() => import('../pages/apps/Email/Detail'));
@@ -257,6 +259,16 @@ const financialsSubRoutes = [
         roles: ['Admin', 'Manager'],
     },
 ];
+
+const PurchaseOrdersRoute = {
+    path: '/purchase-orders',
+    name: 'Purchase Order',
+    icon: FeatherIcon.DollarSign,
+    component: PurchaseOrders,
+    exact: true,
+    route: PrivateRoute,
+    roles: ['Admin', 'Manager'],
+};
 
 // // requests
 // const requestsRoute = {
@@ -627,8 +639,16 @@ const allRoutes = [
     TransactionsRoute,
     financialsRoute,
     ...financialsSubRoutes,
+    PurchaseOrdersRoute,
 ];
 
-const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute, financialsRoute];
+const authProtectedRoutes = [
+    dashboardRoute,
+    itemsRoute,
+    BusinessPartnersRoute,
+    TransactionsRoute,
+    financialsRoute,
+    PurchaseOrdersRoute,
+];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };

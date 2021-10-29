@@ -15,6 +15,21 @@ export const loadDropdownGeneric = async (type, name, setForm) => {
     }
 };
 
+export const loadDropdownConditionGeneric = async (type, name, where, value, setForm) => {
+    try {
+        const response = await apiAuth.get(`/dropdown/condition/${type}/${where}/${value}`);
+        setForm((prevForm) => {
+            const updatedForm = {
+                ...prevForm,
+                [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
+            };
+            return updatedForm;
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export const loadDropdownAccountGeneric = async (type, name, where, value, setForm) => {
     try {
         const response = await apiAuth.get(`/dropdown/condition/accounts/${type}/${where}/${value}`);
