@@ -68,11 +68,13 @@ export default () => {
         });
     };
 
+    // e.target.value used in here because form.discountAmount.value got the previouse value
     const handleDiscountAmountChange = (e) => {
         handleOnChange(e);
         calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
     };
 
+    // e.target.value used in here because form.discountType.value got the previouse value
     const handleDiscountTypeChange = (e) => {
         handleOnChange(e);
         calculateTotalOrderPrice(priceBeforeDiscount, e.target.value, form.discountAmount.value);
