@@ -13,13 +13,13 @@ import {
     UncontrolledAlert,
 } from 'reactstrap';
 import qs from 'qs';
-import FormInput from '../../components/form/FormInput';
-import Entry from '../../components/purchase-orders/OrderItem';
-import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../constants/formValues';
+import FormInput from '../../form/FormInput';
+import Entry from '../../../components/transactions/purchase-orders/OrderItem';
+import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
-import { loadDropdownConditionGeneric } from '../../helpers/form';
-import { apiAuth } from '../../basara-api';
-import { getLoggedInUser } from '../../helpers/authUtils';
+import { loadDropdownConditionGeneric } from '../../../helpers/form';
+import { apiAuth } from '../../../basara-api';
+import { getLoggedInUser } from '../../../helpers/authUtils';
 
 export default () => {
     const [loading, setLoading] = useState(false);
@@ -71,13 +71,17 @@ export default () => {
     // e.target.value used in here because form.discountAmount.value got the previouse value
     const handleDiscountAmountChange = (e) => {
         handleOnChange(e);
-        calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
+        if (validateDiscount(form.discountType.value, e.target.value, priceBeforeDiscount)) {
+            calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
+        }
     };
 
     // e.target.value used in here because form.discountType.value got the previouse value
     const handleDiscountTypeChange = (e) => {
         handleOnChange(e);
-        calculateTotalOrderPrice(priceBeforeDiscount, e.target.value, form.discountAmount.value);
+        if (validateDiscount(e.target.value, form.discountAmount.value, priceBeforeDiscount)) {
+            calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
+        }
     };
 
     const addEntry = () => {
@@ -101,8 +105,48 @@ export default () => {
         const updatedEntries = [...entriesState];
         updatedEntries[e.target.dataset.idx][e.target.name] = e.target.value;
         setEntriesState(updatedEntries);
-        calculateItemTotalValue(e.target.dataset.idx);
-        calculatePriceBeforeDiscount();
+    };
+
+    const handleItemDiscountTypeChange = (e) => {
+        handleItemChange(e);
+        const updatedEntries = [...entriesState];
+        if (
+            validateDiscount(
+                e.target.value,
+                updatedEntries[e.target.dataset.idx]['discount_amount'],
+                updatedEntries[e.target.dataset.idx]['unit_price']
+            )
+        ) {
+            calculateItemTotalValue(e.target.dataset.idx);
+            calculatePriceBeforeDiscount();
+        }
+    };
+
+    const handleItemDiscountAmtChange = (e) => {
+        handleItemChange(e);
+        const updatedEntries = [...entriesState];
+        if (
+            validateDiscount(
+                updatedEntries[e.target.dataset.idx]['discount_type'],
+                e.target.value,
+                updatedEntries[e.target.dataset.idx]['unit_price']
+            )
+        ) {
+            calculateItemTotalValue(e.target.dataset.idx);
+            calculatePriceBeforeDiscount();
+        }
+    };
+
+    const validateDiscount = (discountType, discountAmount, compareAmount) => {
+        if (discountType == 'per' && parseFloat(discountAmount) > 100) {
+            setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
+            return false;
+        } else if (parseFloat(discountAmount) < 0 || parseFloat(discountAmount) > parseFloat(compareAmount)) {
+            setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
+            return false;
+        }
+        setSubmitStatus({ status: null, message: '' });
+        return true;
     };
 
     const calculateItemTotalValue = (idx) => {
@@ -155,7 +199,7 @@ export default () => {
 
         apiAuth
             .post(
-                '/order/new',
+                '/transaction/purchaseorder/new',
                 qs.stringify({
                     user_id: getLoggedInUser().id,
                     supplier_id: form.supplier.value,
@@ -242,6 +286,8 @@ export default () => {
                                             idx={idx}
                                             entriesState={entriesState}
                                             handleItemChange={handleItemChange}
+                                            handleItemDiscountTypeChange={handleItemDiscountTypeChange}
+                                            handleItemDiscountAmtChange={handleItemDiscountAmtChange}
                                             handleItemDelete={(e) => handleItemDelete(e, idx)}
                                             setItem={setItem}
                                         />

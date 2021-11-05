@@ -17,6 +17,9 @@ const Dashboard = React.lazy(() => import('../pages/dashboard'));
 const BusinessPartners = React.lazy(() => import('../pages/business-partners'));
 
 const Transactions = React.lazy(() => import('../pages/transactions'));
+const PurchaseOrders = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrder'));
+const PurchaseOrdersList = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderList'));
+const PurchaseOrderDetails = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderDetails'));
 
 const Financials = React.lazy(() => import('../pages/financials'));
 const FinancialsJournalEntry = React.lazy(() => import('../pages/financials/JournalEntry'));
@@ -28,8 +31,6 @@ const FinancialsPaymentVouchers = React.lazy(() => import('../pages/financials/P
 const FinancialsPaymentVoucherDetails = React.lazy(() => import('../pages/financials/PaymentVoucherDetails'));
 const FinancialsDeposit = React.lazy(() => import('../pages/financials/Deposit'));
 const FinancialsTransaction = React.lazy(() => import('../pages/financials/Transaction'));
-
-const PurchaseOrders = React.lazy(() => import('../pages/purchase-orders'));
 
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -175,6 +176,43 @@ const TransactionsRoute = {
     roles: ['Admin', 'Office Executive', 'Manager'],
 };
 
+const TransactionsSubRoutes = [
+    {
+        path: '/transactions/purchase-order',
+        name: 'Purchase Order',
+        exact: true,
+        component: PurchaseOrders,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/purchase-order/list',
+        name: 'Purchase Order',
+        exact: true,
+        component: PurchaseOrdersList,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/purchase-order/:id',
+        name: 'Purchase Order Details',
+        exact: true,
+        component: PurchaseOrderDetails,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+];
+
+// const PurchaseOrdersRoute = {
+//     path: '/purchase-orders',
+//     name: 'Purchase Order',
+//     icon: FeatherIcon.DollarSign,
+//     component: PurchaseOrders,
+//     exact: true,
+//     route: PrivateRoute,
+//     roles: ['Admin', 'Manager'],
+// };
+
 const financialsRoute = {
     path: '/financials',
     name: 'Financials',
@@ -260,15 +298,15 @@ const financialsSubRoutes = [
     },
 ];
 
-const PurchaseOrdersRoute = {
-    path: '/purchase-orders',
-    name: 'Purchase Order',
-    icon: FeatherIcon.DollarSign,
-    component: PurchaseOrders,
-    exact: true,
-    route: PrivateRoute,
-    roles: ['Admin', 'Manager'],
-};
+// const PurchaseOrdersRoute = {
+//     path: '/purchase-orders',
+//     name: 'Purchase Order',
+//     icon: FeatherIcon.DollarSign,
+//     component: PurchaseOrders,
+//     exact: true,
+//     route: PrivateRoute,
+//     roles: ['Admin', 'Manager'],
+// };
 
 // // requests
 // const requestsRoute = {
@@ -637,18 +675,11 @@ const allRoutes = [
     authRoutes,
     BusinessPartnersRoute,
     TransactionsRoute,
+    ...TransactionsSubRoutes,
     financialsRoute,
     ...financialsSubRoutes,
-    PurchaseOrdersRoute,
 ];
 
-const authProtectedRoutes = [
-    dashboardRoute,
-    itemsRoute,
-    BusinessPartnersRoute,
-    TransactionsRoute,
-    financialsRoute,
-    PurchaseOrdersRoute,
-];
+const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute, financialsRoute];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };

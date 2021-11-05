@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Form, Label, Row, Col } from 'reactstrap';
-import { apiAuth } from '../../basara-api';
+import { apiAuth } from '../../../basara-api';
 
-import FormInput from '../form/FormInput';
+import FormInput from '../../form/FormInput';
 
-export default ({ idx, entriesState, handleItemChange, handleItemDelete, setItem }) => {
+export default ({
+    idx,
+    entriesState,
+    handleItemChange,
+    handleItemDiscountTypeChange,
+    handleItemDiscountAmtChange,
+    handleItemDelete,
+    setItem,
+}) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -73,7 +81,7 @@ export default ({ idx, entriesState, handleItemChange, handleItemDelete, setItem
                         name="discount_type"
                         type="select"
                         options={discount_type_options}
-                        handleOnChange={handleItemChange}
+                        handleOnChange={handleItemDiscountTypeChange}
                     />
                 </Col>
                 <Col lg={3}>
@@ -83,7 +91,7 @@ export default ({ idx, entriesState, handleItemChange, handleItemDelete, setItem
                         name="discount_amount"
                         placeholder="Amount / Percentage Value"
                         value={entriesState[idx].discount_amount}
-                        onChange={handleItemChange}
+                        onChange={handleItemDiscountAmtChange}
                     />
                 </Col>
                 <Col></Col>
