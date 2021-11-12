@@ -20,6 +20,13 @@ const Transactions = React.lazy(() => import('../pages/transactions'));
 const PurchaseOrders = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrder'));
 const PurchaseOrdersList = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderList'));
 const PurchaseOrderDetails = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderDetails'));
+const GoodsReceivedNotes = React.lazy(() => import('../pages/transactions/goods-received-notes/GoodsReceivedNotes'));
+const GoodsReceivedNotesList = React.lazy(() =>
+    import('../pages/transactions/goods-received-notes/GoodsReceivedNotesList')
+);
+const GoodsReceivedNoteDetails = React.lazy(() =>
+    import('../pages/transactions/goods-received-notes/GoodsReceivedNoteDetails')
+);
 
 const Financials = React.lazy(() => import('../pages/financials'));
 const FinancialsJournalEntry = React.lazy(() => import('../pages/financials/JournalEntry'));
@@ -187,7 +194,7 @@ const TransactionsSubRoutes = [
     },
     {
         path: '/transactions/purchase-order/list',
-        name: 'Purchase Order',
+        name: 'Purchase Order List',
         exact: true,
         component: PurchaseOrdersList,
         route: PrivateRoute,
@@ -201,17 +208,31 @@ const TransactionsSubRoutes = [
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
     },
+    {
+        path: '/transactions/goods-received-note',
+        name: 'Goods Received Note',
+        exact: true,
+        component: GoodsReceivedNotes,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/goods-received-note/list',
+        name: 'Goods Received Note List',
+        exact: true,
+        component: GoodsReceivedNotesList,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/goods-received-note/:id',
+        name: 'Goods Received Note Details',
+        exact: true,
+        component: GoodsReceivedNoteDetails,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
 ];
-
-// const PurchaseOrdersRoute = {
-//     path: '/purchase-orders',
-//     name: 'Purchase Order',
-//     icon: FeatherIcon.DollarSign,
-//     component: PurchaseOrders,
-//     exact: true,
-//     route: PrivateRoute,
-//     roles: ['Admin', 'Manager'],
-// };
 
 const financialsRoute = {
     path: '/financials',
