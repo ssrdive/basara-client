@@ -14,14 +14,16 @@ import {
 } from 'reactstrap';
 import qs from 'qs';
 import FormInput from '../../form/FormInput';
-import Entry from '../../../components/transactions/goods-received-notes/GRNItem';
+import Entry from './GRNItem';
 import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
-import { loadDropdownConditionGeneric } from '../../../helpers/form';
+import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers/form';
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default () => {
+export default (props) => {
+    const orderId = props.orderId;
+
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
@@ -31,12 +33,9 @@ export default () => {
         discountType: DROPDOWN_DEFAULT,
         discountAmount: TEXT_INPUT_OPTIONAL,
     });
-    const discountTypeOptions = [
-        { id: 'per', name: 'Percentage' },
-        { id: 'amt', name: 'Amount' },
-    ];
-    const [priceBeforeDiscount, setPriceBeforeDiscount] = useState(0);
-    const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+
+    const [totalPriceBeforeDiscount, setTotalPriceBeforeDiscount] = useState(0);
+    const [totalPriceAfterDiscount, setTotalPriceAfterDiscount] = useState(0);
     const blankEntry = {
         item_id: 0,
         qty: '',
@@ -45,19 +44,78 @@ export default () => {
         discount_amount: '',
         totalItemPrice: 0,
     };
-    const [entriesState, setEntriesState] = useState([blankEntry]);
+
+    const [entriesState, setEntriesState] = useState([]);
 
     useEffect(() => {
         loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
-        setForm((prevForm) => {
-            const updatedForm = {
-                ...prevForm,
-                ['discountType']: { ...prevForm['discountType'], options: discountTypeOptions, value: 'per' },
+        loadDiscountType(setForm);
+
+        if (orderId != null && orderId.trim() != '') {
+            const fetchDetails = async () => {
+                apiAuth
+                    .get(`/transaction/copypurchaseorder/${orderId}`)
+                    .then((res) => {
+                        if (res.data != null) {
+                            setInitialData(res.data);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             };
+
+            fetchDetails();
+        } else {
+            addEntry();
+        }
+    }, []);
+
+    const setInitialData = (data) => {
+        let itemsList = data.order_item_details;
+        let entries = [];
+        var totalPriceBeforeDiscount = 0;
+        for (let i = 0; i < itemsList.length; i++) {
+            console.log(i + ',' + itemsList[i].discount_type.String);
+            var totalItemPrice =
+                calculatePriceAfterDiscount(
+                    itemsList[i].unit_price.String,
+                    itemsList[i].discount_type.String,
+                    itemsList[i].discount_amount.String
+                ) * itemsList[i].quantity.String;
+
+            entries.push({
+                item_id: itemsList[i].item_id.String,
+                qty: itemsList[i].quantity.String,
+                unit_price: itemsList[i].unit_price.String,
+                discount_type: itemsList[i].discount_type.String,
+                discount_amount: itemsList[i].discount_amount.String,
+                totalItemPrice: totalItemPrice,
+            });
+            totalPriceBeforeDiscount = totalPriceBeforeDiscount + totalItemPrice;
+        }
+        setEntriesState(entries);
+        setTotalPriceBeforeDiscount(totalPriceBeforeDiscount);
+
+        setTotalPriceAfterDiscount(
+            calculatePriceAfterDiscount(
+                totalPriceBeforeDiscount,
+                data.discount_type.String,
+                data.discount_amount.String
+            )
+        );
+
+        setForm((prevForm) => {
+            const updatedForm = { ...prevForm };
+            updatedForm['supplier'].value = data.supplier_id.String;
+            updatedForm['warehouse'].value = data.warehouse_id.String;
+            updatedForm['discountType'].value = data.discount_type.String;
+            updatedForm['discountAmount'].value = data.discount_amount.String;
+
             return updatedForm;
         });
-    }, []);
+    };
 
     const handleOnChange = (e) => {
         e.persist();
@@ -71,16 +129,20 @@ export default () => {
     // e.target.value used in here because form.discountAmount.value got the previouse value
     const handleDiscountAmountChange = (e) => {
         handleOnChange(e);
-        if (validateDiscount(form.discountType.value, e.target.value, priceBeforeDiscount)) {
-            calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
+        if (validateDiscount(form.discountType.value, e.target.value, totalPriceBeforeDiscount)) {
+            setTotalPriceAfterDiscount(
+                calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, e.target.value)
+            );
         }
     };
 
     // e.target.value used in here because form.discountType.value got the previouse value
     const handleDiscountTypeChange = (e) => {
         handleOnChange(e);
-        if (validateDiscount(e.target.value, form.discountAmount.value, priceBeforeDiscount)) {
-            calculateTotalOrderPrice(priceBeforeDiscount, form.discountType.value, e.target.value);
+        if (validateDiscount(e.target.value, form.discountAmount.value, totalPriceBeforeDiscount)) {
+            setTotalPriceAfterDiscount(
+                calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, e.target.value)
+            );
         }
     };
 
@@ -101,75 +163,66 @@ export default () => {
         setEntriesState(updatedEntries);
     };
 
-    const handleItemChange = (e) => {
+    const handleItemChangeCommon = (e) => {
         const updatedEntries = [...entriesState];
         updatedEntries[e.target.dataset.idx][e.target.name] = e.target.value;
         setEntriesState(updatedEntries);
     };
 
-    const handleItemDiscountTypeChange = (e) => {
-        handleItemChange(e);
+    const handleItemChange = (e) => {
+        handleItemChangeCommon(e);
         const updatedEntries = [...entriesState];
+        const idx = e.target.dataset.idx;
         if (
             validateDiscount(
-                e.target.value,
-                updatedEntries[e.target.dataset.idx]['discount_amount'],
-                updatedEntries[e.target.dataset.idx]['unit_price']
+                updatedEntries[idx]['discount_type'],
+                updatedEntries[idx]['discount_amount'],
+                updatedEntries[idx]['unit_price']
             )
         ) {
-            calculateItemTotalValue(e.target.dataset.idx);
-            calculatePriceBeforeDiscount();
-        }
-    };
-
-    const handleItemDiscountAmtChange = (e) => {
-        handleItemChange(e);
-        const updatedEntries = [...entriesState];
-        if (
-            validateDiscount(
-                updatedEntries[e.target.dataset.idx]['discount_type'],
-                e.target.value,
-                updatedEntries[e.target.dataset.idx]['unit_price']
-            )
-        ) {
-            calculateItemTotalValue(e.target.dataset.idx);
-            calculatePriceBeforeDiscount();
+            calculateItemTotalPrice(e.target.dataset.idx);
+            calculateTotalPrice();
         }
     };
 
     const validateDiscount = (discountType, discountAmount, compareAmount) => {
-        if (discountType == 'per' && parseFloat(discountAmount) > 100) {
-            setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
-            return false;
-        } else if (parseFloat(discountAmount) < 0 || parseFloat(discountAmount) > parseFloat(compareAmount)) {
-            setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
-            return false;
+        if (discountAmount && compareAmount) {
+            if (discountType == 'per' && parseFloat(discountAmount) > 100) {
+                setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
+                return false;
+            } else if (parseFloat(discountAmount) < 0 || parseFloat(discountAmount) > parseFloat(compareAmount)) {
+                setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
+                return false;
+            }
+            setSubmitStatus({ status: null, message: '' });
         }
-        setSubmitStatus({ status: null, message: '' });
         return true;
     };
 
-    const calculateItemTotalValue = (idx) => {
+    const calculateItemTotalPrice = (idx) => {
         if (entriesState[idx].unit_price && entriesState[idx].qty) {
             const updatedEntries = [...entriesState];
-            var val = 0;
-            if (entriesState[idx].discount_type === 'per')
-                val =
-                    ((entriesState[idx].unit_price * (100 - entriesState[idx].discount_amount)) / 100) *
-                    entriesState[idx].qty;
-            else val = (entriesState[idx].unit_price - entriesState[idx].discount_amount) * entriesState[idx].qty;
+            console.log(idx + ',' + entriesState[idx].discount_type);
+            var val =
+                calculatePriceAfterDiscount(
+                    entriesState[idx].unit_price,
+                    entriesState[idx].discount_type,
+                    entriesState[idx].discount_amount
+                ) * entriesState[idx].qty;
 
             updatedEntries[idx]['totalItemPrice'] = val;
         }
     };
 
-    const calculatePriceBeforeDiscount = () => {
+    const calculateTotalPrice = () => {
         var totalPriceBeforeDiscount = entriesState.reduce((totalPrice, item) => totalPrice + item.totalItemPrice, 0);
-        setPriceBeforeDiscount(totalPriceBeforeDiscount);
-        calculateTotalOrderPrice(totalPriceBeforeDiscount, form.discountType.value, form.discountAmount.value);
+        setTotalPriceBeforeDiscount(totalPriceBeforeDiscount);
+        setTotalPriceAfterDiscount(
+            calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, form.discountAmount.value)
+        );
     };
 
-    const calculateTotalOrderPrice = (priceBeforeDiscount, discountType, discountAmount) => {
+    const calculatePriceAfterDiscount = (priceBeforeDiscount, discountType, discountAmount) => {
         var finalValue = 0;
         if (discountType == 'per') {
             finalValue = (priceBeforeDiscount * (100 - Number(discountAmount))) / 100;
@@ -177,7 +230,7 @@ export default () => {
             finalValue = priceBeforeDiscount - Number(discountAmount);
         }
 
-        setTotalOrderPrice(finalValue);
+        return finalValue;
     };
 
     const submitFormHandler = (e) => {
@@ -201,6 +254,7 @@ export default () => {
             .post(
                 '/transaction/goodsreceivednote/new',
                 qs.stringify({
+                    order_id: orderId,
                     user_id: getLoggedInUser().id,
                     supplier_id: form.supplier.value,
                     warehouse_id: form.warehouse.value,
@@ -208,8 +262,8 @@ export default () => {
                     discount_type: form.discountType.value,
                     discount_amount: form.discountAmount.value,
                     remark: form.remarks.value,
-                    price_before_discount: priceBeforeDiscount,
-                    total_price: totalOrderPrice,
+                    price_before_discount: totalPriceBeforeDiscount,
+                    total_price: totalPriceAfterDiscount,
                 })
             )
             .then((response) => {
@@ -285,9 +339,8 @@ export default () => {
                                         <Entry
                                             idx={idx}
                                             entriesState={entriesState}
+                                            handleItemChangeCommon={handleItemChangeCommon}
                                             handleItemChange={handleItemChange}
-                                            handleItemDiscountTypeChange={handleItemDiscountTypeChange}
-                                            handleItemDiscountAmtChange={handleItemDiscountAmtChange}
                                             handleItemDelete={(e) => handleItemDelete(e, idx)}
                                             setItem={setItem}
                                         />
@@ -305,7 +358,7 @@ export default () => {
                                 <Col></Col>
                                 <Col lg={3} style={{ textAlign: 'right' }}>
                                     <Label style={{ marginTop: '0.5rem' }} for="text">
-                                        {priceBeforeDiscount}
+                                        {totalPriceBeforeDiscount}
                                     </Label>
                                 </Col>
                                 <Col lg={1}></Col>
@@ -322,7 +375,6 @@ export default () => {
                                             {...form['discountType']}
                                             name="discountType"
                                             type="select"
-                                            // options={discountTypes}
                                             handleOnChange={handleDiscountTypeChange}
                                         />
                                     </Col>
@@ -338,7 +390,7 @@ export default () => {
                                     <Col style={{ textAlign: 'right' }}>Total Price : </Col>
                                     <Col style={{ textAlign: 'right' }}>
                                         <Label style={{ marginTop: '0.5rem' }} for="text">
-                                            {totalOrderPrice}
+                                            {totalPriceAfterDiscount}
                                         </Label>
                                     </Col>
                                     <Col lg={1}></Col>

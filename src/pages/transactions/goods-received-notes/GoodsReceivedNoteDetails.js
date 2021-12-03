@@ -122,21 +122,21 @@ export default ({ match }) => {
 
                                     <tr>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td>Discount</td>
-                                        <td>
+                                        <td style={{ textAlign: 'right' }}>
                                             {goodsReceivedNote.discount_amount.String}
                                             {goodsReceivedNote.discount_type.String === 'per' ? '%' : ''}
                                         </td>
-                                        <td></td>
-                                        <td></td>
                                     </tr>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td>
                                             <b>Sub Total</b>
                                         </td>
-                                        <td></td>
-                                        <td></td>
                                         <td style={{ textAlign: 'right' }}>
                                             <b>LKR {goodsReceivedNote.total_price.String}</b>
                                         </td>

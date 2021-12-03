@@ -4,15 +4,7 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({
-    idx,
-    entriesState,
-    handleItemChange,
-    handleItemDiscountTypeChange,
-    handleItemDiscountAmtChange,
-    handleItemDelete,
-    setItem,
-}) => {
+export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -27,7 +19,8 @@ export default ({
                 setModels((prevModels) => {
                     return response.data;
                 });
-                if (response.data.length > 0) setItem(idx, response.data[0].id);
+                if (response.data.length > 0)
+                    setItem(idx, entriesState[idx].item_id ? entriesState[idx].item_id : response.data[0].id);
             })
             .catch((err) => {
                 console.log(err);
@@ -45,7 +38,8 @@ export default ({
                         name="item_id"
                         type="select"
                         options={models}
-                        handleOnChange={handleItemChange}
+                        handleOnChange={handleItemChangeCommon}
+                        selected={entriesState[idx].item_id ? entriesState[idx].item_id : ''}
                     />
                 </Col>
                 <Col lg={3}>
@@ -81,7 +75,8 @@ export default ({
                         name="discount_type"
                         type="select"
                         options={discount_type_options}
-                        handleOnChange={handleItemDiscountTypeChange}
+                        handleOnChange={handleItemChange}
+                        selected={entriesState[idx].discount_type}
                     />
                 </Col>
                 <Col lg={3}>
@@ -91,14 +86,13 @@ export default ({
                         name="discount_amount"
                         placeholder="Amount / Percentage Value"
                         value={entriesState[idx].discount_amount}
-                        onChange={handleItemDiscountAmtChange}
+                        onChange={handleItemChange}
                     />
                 </Col>
                 <Col></Col>
                 <Col style={{ textAlign: 'right' }}>
                     <Label style={{ marginTop: '0.5rem' }} for="text">
                         {entriesState[idx].totalItemPrice}
-                        {/* {entriesState[idx].discount_amount} */}
                     </Label>
                 </Col>
                 <Col lg={1}>

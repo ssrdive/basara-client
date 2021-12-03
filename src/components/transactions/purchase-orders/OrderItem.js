@@ -4,15 +4,7 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({
-    idx,
-    entriesState,
-    handleItemChange,
-    handleItemDiscountTypeChange,
-    handleItemDiscountAmtChange,
-    handleItemDelete,
-    setItem,
-}) => {
+export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -45,7 +37,7 @@ export default ({
                         name="item_id"
                         type="select"
                         options={models}
-                        handleOnChange={handleItemChange}
+                        handleOnChange={handleItemChangeCommon}
                     />
                 </Col>
                 <Col lg={3}>
@@ -81,7 +73,7 @@ export default ({
                         name="discount_type"
                         type="select"
                         options={discount_type_options}
-                        handleOnChange={handleItemDiscountTypeChange}
+                        handleOnChange={handleItemChange}
                     />
                 </Col>
                 <Col lg={3}>
@@ -91,7 +83,7 @@ export default ({
                         name="discount_amount"
                         placeholder="Amount / Percentage Value"
                         value={entriesState[idx].discount_amount}
-                        onChange={handleItemDiscountAmtChange}
+                        onChange={handleItemChange}
                     />
                 </Col>
                 <Col></Col>

@@ -69,3 +69,22 @@ export const loadDropdownAccountWithChildGeneric = async (
         console.log(err);
     }
 };
+
+export const loadDiscountType = (setForm) => {
+    const discountTypeOptions = [
+        { id: 'per', name: 'Percentage' },
+        { id: 'amt', name: 'Amount' },
+    ];
+
+    try {
+        setForm((prevForm) => {
+            const updatedForm = {
+                ...prevForm,
+                ['discountType']: { ...prevForm['discountType'], options: discountTypeOptions, value: 'per' },
+            };
+            return updatedForm;
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};

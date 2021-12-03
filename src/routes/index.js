@@ -21,6 +21,10 @@ const PurchaseOrders = React.lazy(() => import('../pages/transactions/purchase-o
 const PurchaseOrdersList = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderList'));
 const PurchaseOrderDetails = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrderDetails'));
 const GoodsReceivedNotes = React.lazy(() => import('../pages/transactions/goods-received-notes/GoodsReceivedNotes'));
+const GoodsReceivedNotesCopy = React.lazy(() =>
+    import('../pages/transactions/goods-received-notes/GoodsReceivedNotesCopy')
+);
+
 const GoodsReceivedNotesList = React.lazy(() =>
     import('../pages/transactions/goods-received-notes/GoodsReceivedNotesList')
 );
@@ -213,6 +217,14 @@ const TransactionsSubRoutes = [
         name: 'Goods Received Note',
         exact: true,
         component: GoodsReceivedNotes,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/goods-received-note-copy/:id',
+        name: 'Goods Received Note (Order Copy)',
+        exact: true,
+        component: GoodsReceivedNotesCopy,
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
     },

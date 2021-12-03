@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Table } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import { apiAuth } from '../../../basara-api';
 
@@ -23,10 +24,11 @@ export default ({ match }) => {
         fetchDetails();
     }, [id]);
 
-    const submitFormHandler = (e) => {
-        e.persist();
-        e.preventDefault();
-    };
+    // const submitFormHandler = (e) => {
+    //     e.persist();
+    //     e.preventDefault();
+
+    // };
 
     return (
         <React.Fragment>
@@ -127,21 +129,21 @@ export default ({ match }) => {
 
                                     <tr>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td>Discount</td>
-                                        <td>
+                                        <td style={{ textAlign: 'right' }}>
                                             {purchaseOrder.discount_amount.String}
                                             {purchaseOrder.discount_type.String === 'per' ? '%' : ''}
                                         </td>
-                                        <td></td>
-                                        <td></td>
                                     </tr>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td>
                                             <b>Sub Total</b>
                                         </td>
-                                        <td></td>
-                                        <td></td>
                                         <td style={{ textAlign: 'right' }}>
                                             <b>LKR {purchaseOrder.total_price.String}</b>
                                         </td>
@@ -184,9 +186,9 @@ export default ({ match }) => {
             </Row>
             <Row>
                 <Col>
-                    <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Copy to BRN
-                    </Button>
+                    <Link to={`/transactions/goods-received-note-copy/${id}`}>
+                        <Button color="success">Copy to BRN</Button>
+                    </Link>
                 </Col>
             </Row>
         </React.Fragment>
