@@ -34,7 +34,7 @@ export default () => {
                 <Table className="mb-0" responsive={true} striped>
                     <thead>
                         <tr>
-                            <th>BRN ID</th>
+                            <th>GRN ID</th>
                             <th>Supplier</th>
                             <th>Warehouse</th>
                             <th>Total Order Price</th>

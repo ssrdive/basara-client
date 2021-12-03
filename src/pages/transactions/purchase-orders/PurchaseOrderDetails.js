@@ -187,7 +187,7 @@ export default ({ match }) => {
             <Row>
                 <Col>
                     <Link to={`/transactions/goods-received-note-copy/${id}`}>
-                        <Button color="success">Copy to BRN</Button>
+                        <Button color="success">Copy to GRN</Button>
                     </Link>
                 </Col>
             </Row>
