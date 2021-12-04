@@ -15,25 +15,24 @@ import {
     Button,
     UncontrolledAlert,
     Spinner,
-    UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem
+    UncontrolledDropdown,
+    DropdownMenu,
+    DropdownToggle,
+    DropdownItem,
 } from 'reactstrap';
 import { ChevronDown } from 'react-feather';
 import { loadDropdownGeneric } from '../../helpers/form';
 
 import PageTitle from '../../components/PageTitle';
 
-import {
-    TEXT_INPUT_REQUIRED,
-    NUMBER_INPUT_REQUIRED,
-    DROPDOWN_DEFAULT,
-} from '../../constants/formValues';
+import { TEXT_INPUT_REQUIRED, NUMBER_INPUT_REQUIRED, DROPDOWN_DEFAULT } from '../../constants/formValues';
 
-const FormInput = props => {
+const FormInput = (props) => {
     return (
         <>
             {props.type === 'select' ? (
                 <Input type="select" name={props.name} onChange={props.handleOnChange}>
-                    {props.options.map(option => {
+                    {props.options.map((option) => {
                         return (
                             <option key={option.id} value={option.id}>
                                 {option.name}
@@ -42,15 +41,15 @@ const FormInput = props => {
                     })}
                 </Input>
             ) : (
-                    <Input
-                        type={props.type}
-                        value={props.value}
-                        onChange={props.handleOnChange}
-                        name={props.name}
-                        placeholder={props.placeholder}
-                        required={props.required}
-                    />
-                )}
+                <Input
+                    type={props.type}
+                    value={props.value}
+                    onChange={props.handleOnChange}
+                    name={props.name}
+                    placeholder={props.placeholder}
+                    required={props.required}
+                />
+            )}
         </>
     );
 };
@@ -65,13 +64,13 @@ const CreateItem = () => {
         page_number: NUMBER_INPUT_REQUIRED,
         item_number: TEXT_INPUT_REQUIRED,
         foreign_id: TEXT_INPUT_REQUIRED,
-        item_name: TEXT_INPUT_REQUIRED,
+        name: TEXT_INPUT_REQUIRED,
         price: NUMBER_INPUT_REQUIRED,
     });
 
-    const handleOnChange = e => {
+    const handleOnChange = (e) => {
         e.persist();
-        setForm(prevForm => {
+        setForm((prevForm) => {
             const updatedForm = { ...prevForm, [e.target.name]: { ...prevForm[e.target.name] } };
             updatedForm[e.target.name].value = e.target.value;
             return updatedForm;
@@ -83,8 +82,8 @@ const CreateItem = () => {
         loadDropdownGeneric('item_category', 'category', setForm);
     }, []);
 
-    const handleFormSubmit = e => {
-        setLoading(prevLoading => true);
+    const handleFormSubmit = (e) => {
+        setLoading((prevLoading) => true);
         setSubmitStatus({ status: null, message: '' });
         e.persist();
         e.preventDefault();
@@ -99,16 +98,16 @@ const CreateItem = () => {
                     page_no: form.page_number.value,
                     item_no: form.item_number.value,
                     foreign_id: form.foreign_id.value,
-                    item_name: form.item_name.value,
+                    name: form.name.value,
                     price: form.price.value,
                 })
             )
-            .then(response => {
-                setLoading(prevLoading => false);
+            .then((response) => {
+                setLoading((prevLoading) => false);
                 setSubmitStatus({ status: 'success', message: `Item created with number ${response.data}` });
             })
-            .catch(err => {
-                setLoading(prevLoading => false);
+            .catch((err) => {
+                setLoading((prevLoading) => false);
                 setSubmitStatus({ status: 'failure', message: 'Something went wrong' });
             });
     };
@@ -120,16 +119,16 @@ const CreateItem = () => {
                     submitStatus.status === 'success' ? (
                         <UncontrolledAlert color="success">{submitStatus.message}</UncontrolledAlert>
                     ) : (
-                            <UncontrolledAlert color="warning">{submitStatus.message}</UncontrolledAlert>
-                        )
+                        <UncontrolledAlert color="warning">{submitStatus.message}</UncontrolledAlert>
+                    )
                 ) : null}
                 {loading ? (
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
-                        <Button color="success" type="submit">
-                            Create Item
-                        </Button>
-                    )}
+                    <Button color="success" type="submit">
+                        Create Item
+                    </Button>
+                )}
             </>
         );
     };
@@ -145,16 +144,17 @@ const CreateItem = () => {
                             <Badge color="success" className="mr-1">
                                 Item Code
                             </Badge>
-                            <Label>{form.model.value}{form.category.value}{form.page_number.value}{form.item_number.value}</Label>
+                            <Label>
+                                {form.model.value}
+                                {form.category.value}
+                                {form.page_number.value}
+                                {form.item_number.value}
+                            </Label>
                             <Row>
                                 <Col md={6}>
                                     <FormGroup>
                                         <Label for="text">Model</Label>
-                                        <FormInput
-                                            {...form['model']}
-                                            name="model"
-                                            handleOnChange={handleOnChange}
-                                        />
+                                        <FormInput {...form['model']} name="model" handleOnChange={handleOnChange} />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="text">Category</Label>
@@ -197,8 +197,8 @@ const CreateItem = () => {
                                     <FormGroup>
                                         <Label for="text">Item Name</Label>
                                         <FormInput
-                                            {...form['item_name']}
-                                            name="item_name"
+                                            {...form['name']}
+                                            name="name"
                                             placeholder="Piston"
                                             handleOnChange={handleOnChange}
                                         />
@@ -220,7 +220,7 @@ const CreateItem = () => {
             </CardBody>
         </Card>
     );
-}
+};
 
 const ItemReports = ({ history }) => {
     return (
@@ -253,20 +253,20 @@ const ItemSearch = ({ history }) => {
         search: TEXT_INPUT_REQUIRED,
     });
 
-    const handleOnChange = e => {
+    const handleOnChange = (e) => {
         e.persist();
-        setForm(prevForm => {
+        setForm((prevForm) => {
             const updatedForm = { ...prevForm, [e.target.name]: { ...prevForm[e.target.name] } };
             updatedForm[e.target.name].value = e.target.value;
             return updatedForm;
         });
     };
 
-    const handleFormSubmit = e => {
+    const handleFormSubmit = (e) => {
         e.persist();
         e.preventDefault();
-        history.push(`/items/search?search=${form.search.value}`)
-    }
+        history.push(`/items/search?search=${form.search.value}`);
+    };
 
     return (
         <Card>
@@ -296,10 +296,7 @@ const Items = ({ history }) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'Items', path: '/items', active: true }]}
-                        title={'Items'}
-                    />
+                    <PageTitle breadCrumbItems={[{ label: 'Items', path: '/items', active: true }]} title={'Items'} />
                 </Col>
             </Row>
 
@@ -318,7 +315,6 @@ const Items = ({ history }) => {
                     <CreateItem />
                 </Col>
             </Row>
-
         </React.Fragment>
     );
 };

@@ -14,7 +14,7 @@ export default (props) => {
                                         {option.name} ({option.account_id})
                                     </option>
                                 ) : (
-                                    <option key={option.id} value={option.id}>
+                                    <option key={option.id} value={option.id} selected={option.id == props.selected}>
                                         {option.name}
                                     </option>
                                 )}
