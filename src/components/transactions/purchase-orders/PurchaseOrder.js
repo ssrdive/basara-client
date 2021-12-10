@@ -135,7 +135,6 @@ export default () => {
     const calculateItemTotalPrice = (idx) => {
         if (entriesState[idx].unit_price && entriesState[idx].qty) {
             const updatedEntries = [...entriesState];
-            console.log(idx + ',' + entriesState[idx].discount_type);
             var val =
                 calculatePriceAfterDiscount(
                     entriesState[idx].unit_price,

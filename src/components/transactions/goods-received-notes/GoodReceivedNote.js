@@ -77,7 +77,6 @@ export default (props) => {
         let entries = [];
         var totalPriceBeforeDiscount = 0;
         for (let i = 0; i < itemsList.length; i++) {
-            console.log(i + ',' + itemsList[i].discount_type.String);
             var totalItemPrice =
                 calculatePriceAfterDiscount(
                     itemsList[i].unit_price.String,
@@ -202,7 +201,6 @@ export default (props) => {
     const calculateItemTotalPrice = (idx) => {
         if (entriesState[idx].unit_price && entriesState[idx].qty) {
             const updatedEntries = [...entriesState];
-            console.log(idx + ',' + entriesState[idx].discount_type);
             var val =
                 calculatePriceAfterDiscount(
                     entriesState[idx].unit_price,

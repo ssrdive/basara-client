@@ -24,13 +24,13 @@ const GoodsReceivedNotes = React.lazy(() => import('../pages/transactions/goods-
 const GoodsReceivedNotesCopy = React.lazy(() =>
     import('../pages/transactions/goods-received-notes/GoodsReceivedNotesCopy')
 );
-
 const GoodsReceivedNotesList = React.lazy(() =>
     import('../pages/transactions/goods-received-notes/GoodsReceivedNotesList')
 );
 const GoodsReceivedNoteDetails = React.lazy(() =>
     import('../pages/transactions/goods-received-notes/GoodsReceivedNoteDetails')
 );
+const LandedCost = React.lazy(() => import('../pages/transactions/landed-cost/LandedCost'));
 
 const Financials = React.lazy(() => import('../pages/financials'));
 const FinancialsJournalEntry = React.lazy(() => import('../pages/financials/JournalEntry'));
@@ -241,6 +241,14 @@ const TransactionsSubRoutes = [
         name: 'Goods Received Note Details',
         exact: true,
         component: GoodsReceivedNoteDetails,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/landed-cost',
+        name: 'Landed Cost',
+        exact: true,
+        component: LandedCost,
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
     },
