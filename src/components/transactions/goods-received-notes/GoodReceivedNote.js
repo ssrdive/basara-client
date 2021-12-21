@@ -152,8 +152,13 @@ export default (props) => {
     const handleItemDelete = (e, idx) => {
         e.preventDefault();
         const updatedEntries = [...entriesState];
+        let currentTotalPrice = totalPriceBeforeDiscount - updatedEntries[idx].totalItemPrice;
         updatedEntries.splice(idx, 1);
         setEntriesState(updatedEntries);
+        setTotalPriceBeforeDiscount(currentTotalPrice);
+        setTotalPriceAfterDiscount(
+            calculatePriceAfterDiscount(currentTotalPrice, form.discountType.value, form.discountAmount.value)
+        );
     };
 
     const setItem = (idx, item) => {
@@ -260,7 +265,6 @@ export default (props) => {
                     discount_type: form.discountType.value,
                     discount_amount: form.discountAmount.value,
                     remark: form.remarks.value,
-                    price_before_discount: totalPriceBeforeDiscount,
                     total_price: totalPriceAfterDiscount,
                 })
             )

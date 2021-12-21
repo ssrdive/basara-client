@@ -4,7 +4,15 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
+export default ({
+    idx,
+    entriesState,
+    handleItemChangeCommon,
+    handleItemChange,
+    handleItemDelete,
+    setItem,
+    itemsList,
+}) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -13,18 +21,22 @@ export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, h
     ];
 
     useEffect(() => {
-        apiAuth
-            .get('/dropdown/item')
-            .then((response) => {
-                setModels((prevModels) => {
-                    return response.data;
+        if (itemsList == null || itemsList.length == 0) {
+            apiAuth
+                .get('/dropdown/item')
+                .then((response) => {
+                    setModels((prevModels) => {
+                        return response.data;
+                    });
+                    if (response.data.length > 0) setItem(idx, response.data[0].id);
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-                if (response.data.length > 0) setItem(idx, response.data[0].id);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        // eslint-disable-next-line
+        } else {
+            setModels(itemsList);
+            setItem(idx, itemsList[0].id);
+        }
     }, []);
 
     return (
