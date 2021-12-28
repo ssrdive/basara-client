@@ -17,7 +17,11 @@ import FormInput from '../../form/FormInput';
 import Entry from '../../../components/transactions/purchase-orders/OrderItem';
 import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
-import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers/form';
+import {
+    loadDropdownMultiConditionGeneric,
+    loadDropdownConditionGeneric,
+    loadDiscountType,
+} from '../../../helpers/form';
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
@@ -46,7 +50,14 @@ export default () => {
     const [itemsList, setItemsList] = useState([]);
 
     useEffect(() => {
-        loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
+        loadDropdownMultiConditionGeneric(
+            'business_partner',
+            'supplier',
+            'business_partner_type_id,business_partner_type_id',
+            '1,2',
+            'or',
+            setForm
+        );
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
         apiAuth
