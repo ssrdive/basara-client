@@ -4,7 +4,7 @@ import { Card, CardBody, Table, Spinner } from 'reactstrap';
 
 import { apiAuth } from '../../../basara-api';
 
-export default () => {
+const GoodsReceivedNotesList = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -22,11 +22,7 @@ export default () => {
                 console.log(err);
             });
     }, []);
-
-    let debits = 0;
-    let credits = 0;
-    let balance = 0;
-
+    
     return (
         <Card>
             <CardBody>
@@ -64,3 +60,5 @@ export default () => {
         </Card>
     );
 };
+
+export default GoodsReceivedNotesList;

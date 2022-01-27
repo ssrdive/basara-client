@@ -3,7 +3,6 @@ import qs from 'qs';
 import { apiAuth } from '../../basara-api';
 import { getLoggedInUser } from '../../helpers/authUtils';
 import {
-    Badge,
     Row,
     Col,
     Card,
@@ -15,9 +14,7 @@ import {
     Button,
     UncontrolledAlert,
     Spinner,
-    UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem
 } from 'reactstrap';
-import { ChevronDown } from 'react-feather';
 import { loadDropdownGeneric } from '../../helpers/form';
 
 import PageTitle from '../../components/PageTitle';
@@ -196,7 +193,7 @@ const Create = () => {
     );
 }
 
-export default () => {
+const BusinessPartnersPage = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -221,3 +218,5 @@ export default () => {
         </React.Fragment>
     );
 };
+
+export default BusinessPartnersPage;

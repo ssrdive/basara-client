@@ -4,7 +4,7 @@ import { Row, Col } from 'reactstrap';
 import PageTitle from '../../../components/PageTitle';
 import PurchaseOrderList from '../../../components/transactions/purchase-orders/PurchaseOrderList';
 
-export default () => {
+const PurchaseOrderListPage = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -27,3 +27,5 @@ export default () => {
         </React.Fragment>
     );
 };
+
+export default PurchaseOrderListPage;

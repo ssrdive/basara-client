@@ -4,7 +4,7 @@ import { Card, CardBody, Table, Spinner } from 'reactstrap';
 
 import { apiAuth } from '../../basara-api';
 
-export default () => {
+const PaymentVouchers = () => {
     const [receipts, setReceipts] = useState(null);
 
     useEffect(() => {
@@ -61,3 +61,5 @@ export default () => {
         </Card>
     );
 };
+
+export default PaymentVouchers;

@@ -25,7 +25,7 @@ import {
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default () => {
+const PurchaseOrder = () => {
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
@@ -383,3 +383,5 @@ export default () => {
         </Card>
     );
 };
+
+export default PurchaseOrder;

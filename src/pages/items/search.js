@@ -5,7 +5,7 @@ import { Row, Col, Card, CardBody, Table, Spinner } from 'reactstrap';
 import PageTitle from '../../components/PageTitle';
 import { apiAuth } from '../../basara-api';
 
-export default ({ location }) => {
+const ItemSearchPage = ({ location }) => {
     const params = new URLSearchParams(location.search);
     const search = params.get('search');
 
@@ -89,3 +89,5 @@ export default ({ location }) => {
         </React.Fragment>
     );
 };
+
+export default ItemSearchPage;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-    Input,
     Row,
     Form,
     Label,
@@ -20,12 +19,12 @@ import { loadDropdownGRNGeneric } from '../../../helpers/form';
 
 import Entry from './LandedCostItem';
 
-import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
+import { DROPDOWN_DEFAULT } from '../../../constants/formValues';
 
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default () => {
+const LandedCost = () => {
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
@@ -184,3 +183,5 @@ export default () => {
         </Card>
     );
 };
+
+export default LandedCost;

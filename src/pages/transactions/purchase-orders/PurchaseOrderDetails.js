@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { apiAuth } from '../../../basara-api';
 
-export default ({ match }) => {
+const PurchaseOrderDetailsPage = ({ match }) => {
     const id = match.params.id;
 
     const [purchaseOrder, setPurchaseOrder] = useState(null);
@@ -194,3 +194,5 @@ export default ({ match }) => {
         </React.Fragment>
     );
 };
+
+export default PurchaseOrderDetailsPage;

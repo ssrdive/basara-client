@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Form, Label, Row, Col } from 'reactstrap';
+import { Button, Input, Form, Row, Col } from 'reactstrap';
 import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({ idx, entriesState, handleItemChange, handleItemDelete, setCostType }) => {
+const LandedCostItem = ({ idx, entriesState, handleItemChange, handleItemDelete, setCostType }) => {
     const [models, setModels] = useState([]);
 
     useEffect(() => {
@@ -57,3 +57,5 @@ export default ({ idx, entriesState, handleItemChange, handleItemDelete, setCost
         </Form>
     );
 };
+
+export default LandedCostItem;

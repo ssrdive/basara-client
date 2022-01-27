@@ -4,7 +4,7 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
+const GRNItem = ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -106,3 +106,5 @@ export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, h
         </Form>
     );
 };
+
+export default GRNItem;

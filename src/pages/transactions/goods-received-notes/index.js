@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import { ChevronDown } from 'react-feather';
 
-export default ({ history }) => {
+const GoodsReceivedNotesCard = ({ history }) => {
     return (
         <Card>
             <CardBody>
@@ -33,3 +33,5 @@ export default ({ history }) => {
         </Card>
     );
 };
+
+export default GoodsReceivedNotesCard;

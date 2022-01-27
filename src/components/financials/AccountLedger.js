@@ -4,7 +4,7 @@ import { Card, CardBody, Table, Spinner } from 'reactstrap';
 
 import { apiAuth } from '../../basara-api';
 
-export default ({ id }) => {
+const AccountLedger = ({ id }) => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -82,3 +82,5 @@ export default ({ id }) => {
         </Card>
     );
 };
+
+export default AccountLedger;

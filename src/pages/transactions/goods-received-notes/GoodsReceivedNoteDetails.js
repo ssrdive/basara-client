@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Table } from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 
 import { apiAuth } from '../../../basara-api';
 
-export default ({ match }) => {
+const GoodsReceivedNoteDetailsPage = ({ match }) => {
     const id = match.params.id;
 
     const [goodsReceivedNote, setGoodsReceivedNote] = useState(null);
@@ -180,3 +180,5 @@ export default ({ match }) => {
         </React.Fragment>
     );
 };
+
+export default GoodsReceivedNoteDetailsPage;

@@ -8,7 +8,7 @@ import FormInput from '../form/FormInput';
 import { NUMBER_INPUT_REQUIRED, TEXTAREA_INPUT_REQUIRED, DROPDOWN_DEFAULT } from '../../constants/formValues';
 import { loadDropdownAccountGeneric, loadDropdownAccountWithChildGeneric } from '../../helpers/form';
 
-export default () => {
+const NewCategory = () => {
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
@@ -139,3 +139,5 @@ export default () => {
         </Card>
     );
 };
+
+export default NewCategory;

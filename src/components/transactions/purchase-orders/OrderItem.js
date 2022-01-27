@@ -4,7 +4,7 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({
+const OrderItem = ({
     idx,
     entriesState,
     handleItemChangeCommon,
@@ -116,3 +116,5 @@ export default ({
         </Form>
     );
 };
+
+export default OrderItem;

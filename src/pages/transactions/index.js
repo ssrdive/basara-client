@@ -6,7 +6,7 @@ import PurchaseOrder from './purchase-orders';
 import GoodsReceivedNotes from './goods-received-notes';
 import LandedCost from './landed-cost';
 
-export default ({ history }) => {
+const TransactionsPage = ({ history }) => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -45,3 +45,5 @@ export default ({ history }) => {
         </React.Fragment>
     );
 };
+
+export default TransactionsPage;

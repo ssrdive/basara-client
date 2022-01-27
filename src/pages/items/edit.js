@@ -16,7 +16,6 @@ import {
 import qs from 'qs';
 
 import { apiAuth } from '../../basara-api';
-import { getLoggedInUser } from '../../helpers/authUtils';
 import { TEXT_INPUT_REQUIRED, NUMBER_INPUT_REQUIRED } from '../../constants/formValues';
 
 import PageTitle from '../../components/PageTitle';
@@ -48,7 +47,7 @@ const FormInput = (props) => {
     );
 };
 
-export default ({ match }) => {
+const EditItem = ({ match }) => {
     const id = match.params.id;
 
     const [loading, setLoading] = useState(false);
@@ -256,3 +255,5 @@ export default ({ match }) => {
         </React.Fragment>
     );
 };
+
+export default EditItem;

@@ -21,7 +21,7 @@ import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default (props) => {
+const GoodReceivedNote = (props) => {
     const orderId = props.orderId;
 
     const [loading, setLoading] = useState(false);
@@ -414,3 +414,5 @@ export default (props) => {
         </Card>
     );
 };
+
+export default GoodReceivedNote;
