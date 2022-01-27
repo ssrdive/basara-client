@@ -43,44 +43,44 @@ const FinancialsPaymentVoucherDetails = React.lazy(() => import('../pages/financ
 const FinancialsDeposit = React.lazy(() => import('../pages/financials/Deposit'));
 const FinancialsTransaction = React.lazy(() => import('../pages/financials/Transaction'));
 
-const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
-const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
-const EmailDetail = React.lazy(() => import('../pages/apps/Email/Detail'));
-const EmailCompose = React.lazy(() => import('../pages/apps/Email/Compose'));
-const ProjectList = React.lazy(() => import('../pages/apps/Project/List'));
-const ProjectDetail = React.lazy(() => import('../pages/apps/Project/Detail/'));
-const TaskList = React.lazy(() => import('../pages/apps/Tasks/List'));
-const TaskBoard = React.lazy(() => import('../pages/apps/Tasks/Board'));
+// const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
+// const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
+// const EmailDetail = React.lazy(() => import('../pages/apps/Email/Detail'));
+// const EmailCompose = React.lazy(() => import('../pages/apps/Email/Compose'));
+// const ProjectList = React.lazy(() => import('../pages/apps/Project/List'));
+// const ProjectDetail = React.lazy(() => import('../pages/apps/Project/Detail/'));
+// const TaskList = React.lazy(() => import('../pages/apps/Tasks/List'));
+// const TaskBoard = React.lazy(() => import('../pages/apps/Tasks/Board'));
 
 // pages
-const Starter = React.lazy(() => import('../pages/other/Starter'));
-const Profile = React.lazy(() => import('../pages/other/Profile/'));
-const Activity = React.lazy(() => import('../pages/other/Activity'));
-const Invoice = React.lazy(() => import('../pages/other/Invoice'));
-const Pricing = React.lazy(() => import('../pages/other/Pricing'));
-const Error404 = React.lazy(() => import('../pages/other/Error404'));
-const Error500 = React.lazy(() => import('../pages/other/Error500'));
+// const Starter = React.lazy(() => import('../pages/other/Starter'));
+// const Profile = React.lazy(() => import('../pages/other/Profile/'));
+// const Activity = React.lazy(() => import('../pages/other/Activity'));
+// const Invoice = React.lazy(() => import('../pages/other/Invoice'));
+// const Pricing = React.lazy(() => import('../pages/other/Pricing'));
+// const Error404 = React.lazy(() => import('../pages/other/Error404'));
+// const Error500 = React.lazy(() => import('../pages/other/Error500'));
 
 // ui
-const BSComponents = React.lazy(() => import('../pages/uikit/BSComponents/'));
-const FeatherIcons = React.lazy(() => import('../pages/uikit/Icons/Feather'));
-const UniconsIcons = React.lazy(() => import('../pages/uikit/Icons/Unicons'));
-const Widgets = React.lazy(() => import('../pages/uikit/Widgets/'));
+// const BSComponents = React.lazy(() => import('../pages/uikit/BSComponents/'));
+// const FeatherIcons = React.lazy(() => import('../pages/uikit/Icons/Feather'));
+// const UniconsIcons = React.lazy(() => import('../pages/uikit/Icons/Unicons'));
+// const Widgets = React.lazy(() => import('../pages/uikit/Widgets/'));
 
 // charts
-const Charts = React.lazy(() => import('../pages/charts/'));
+// const Charts = React.lazy(() => import('../pages/charts/'));
 
 // forms
-const BasicForms = React.lazy(() => import('../pages/forms/Basic'));
-const FormAdvanced = React.lazy(() => import('../pages/forms/Advanced'));
-const FormValidation = React.lazy(() => import('../pages/forms/Validation'));
-const FormWizard = React.lazy(() => import('../pages/forms/Wizard'));
-const FileUpload = React.lazy(() => import('../pages/forms/FileUpload'));
-const Editor = React.lazy(() => import('../pages/forms/Editor'));
+// const BasicForms = React.lazy(() => import('../pages/forms/Basic'));
+// const FormAdvanced = React.lazy(() => import('../pages/forms/Advanced'));
+// const FormValidation = React.lazy(() => import('../pages/forms/Validation'));
+// const FormWizard = React.lazy(() => import('../pages/forms/Wizard'));
+// const FileUpload = React.lazy(() => import('../pages/forms/FileUpload'));
+// const Editor = React.lazy(() => import('../pages/forms/Editor'));
 
 // tables
-const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
-const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
+// const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
+// const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
 
 const Items = React.lazy(() => import('../pages/items'));
 const ItemsAll = React.lazy(() => import('../pages/items/all'));
