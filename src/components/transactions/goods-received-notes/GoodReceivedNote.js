@@ -44,6 +44,7 @@ const GoodReceivedNote = (props) => {
         discount_amount: '',
         totalItemPrice: 0,
     };
+    const [itemsList, setItemsList] = useState([]);
 
     const [entriesState, setEntriesState] = useState([]);
 
@@ -51,6 +52,16 @@ const GoodReceivedNote = (props) => {
         loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
+        apiAuth
+            .get('/dropdown/item')
+            .then((response) => {
+                setItemsList((prevItemsList) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
         if (orderId != null && orderId.trim() != '') {
             const fetchDetails = async () => {
@@ -345,6 +356,7 @@ const GoodReceivedNote = (props) => {
                                             handleItemChange={handleItemChange}
                                             handleItemDelete={(e) => handleItemDelete(e, idx)}
                                             setItem={setItem}
+                                            itemsList={itemsList}
                                         />
                                     </div>
                                 );

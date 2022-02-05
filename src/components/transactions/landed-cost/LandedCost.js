@@ -124,7 +124,7 @@ const LandedCost = () => {
             )
             .then((response) => {
                 setLoading((prevLoading) => false);
-                setSubmitStatus({ status: 'success', message: `Entries issued` });
+                setSubmitStatus({ status: 'success', message: "Entries issued" });
                 loadDropdownGRNGeneric('goodsReceivedNote', setForm);
             })
             .catch((err) => {
