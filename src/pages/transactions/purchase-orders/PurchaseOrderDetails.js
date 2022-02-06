@@ -83,8 +83,7 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                 <th>Item Name</th>
                                 <th>Unit Price</th>
                                 <th>Quantity</th>
-                                <th>Discount</th>
-                                <th style={{ textAlign: 'center' }}>Amount</th>
+                                <th style={{ textAlign: 'right' }}>Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,13 +93,8 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                         return (
                                             <tr key={index}>
                                                 <td>{item.item_name.String}</td>
-
                                                 <td>{item.unit_price.String}</td>
                                                 <td>{item.quantity.String}</td>
-                                                <td>
-                                                    {item.discount_amount.String}
-                                                    {item.discount_type.String == 'per' ? '%' : ''}
-                                                </td>
                                                 <td style={{ textAlign: 'right' }}>
                                                     {item.total_price.String.toLocaleString()}
                                                 </td>
@@ -121,14 +115,12 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
                                         <td style={{ textAlign: 'right' }}>
                                             LKR {purchaseOrder.price_before_discount.String}
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td>Discount</td>
@@ -138,7 +130,6 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td>
