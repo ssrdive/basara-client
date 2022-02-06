@@ -18,13 +18,15 @@ export const loadDropdownGeneric = async (type, name, setForm) => {
 export const loadDropdownConditionGeneric = async (type, name, where, value, setForm) => {
     try {
         const response = await apiAuth.get(`/dropdown/condition/${type}/${where}/${value}`);
-        setForm((prevForm) => {
-            const updatedForm = {
-                ...prevForm,
-                [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
-            };
-            return updatedForm;
-        });
+        if (response.data != null && response.data.length != 0) {
+            setForm((prevForm) => {
+                const updatedForm = {
+                    ...prevForm,
+                    [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
+                };
+                return updatedForm;
+            });
+        }
     } catch (err) {
         console.log(err);
     }
@@ -33,13 +35,15 @@ export const loadDropdownConditionGeneric = async (type, name, where, value, set
 export const loadDropdownMultiConditionGeneric = async (type, name, where, value, operator, setForm) => {
     try {
         const response = await apiAuth.get(`/dropdown/multicondition/${type}/${where}/${value}/${operator}`);
-        setForm((prevForm) => {
-            const updatedForm = {
-                ...prevForm,
-                [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
-            };
-            return updatedForm;
-        });
+        if (response.data != null && response.data.length != 0) {
+            setForm((prevForm) => {
+                const updatedForm = {
+                    ...prevForm,
+                    [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
+                };
+                return updatedForm;
+            });
+        }
     } catch (err) {
         console.log(err);
     }

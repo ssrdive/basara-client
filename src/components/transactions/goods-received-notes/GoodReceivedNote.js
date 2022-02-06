@@ -101,7 +101,7 @@ const GoodReceivedNote = (props) => {
                 qty: itemsList[i].quantity.String,
                 unit_price: itemsList[i].unit_price.String,
                 discount_type: 'per',
-                discount_amount: 0,
+                discount_amount: '0',
                 totalItemPrice: totalItemPrice,
             });
             totalPriceBeforeDiscount = totalPriceBeforeDiscount + totalItemPrice;
