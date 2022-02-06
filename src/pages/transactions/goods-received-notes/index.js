@@ -6,7 +6,7 @@ const GoodsReceivedNotesCard = ({ history }) => {
     return (
         <Card>
             <CardBody>
-                <h4 className="header-title mt-0">Received Notes</h4>
+                <h4 className="header-title mt-0">Goods Received Notes</h4>
                 <UncontrolledDropdown className="d-inline">
                     <DropdownToggle color="info">
                         Goods Received Notes{' '}

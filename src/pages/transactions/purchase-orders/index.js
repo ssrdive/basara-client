@@ -9,7 +9,7 @@ const PurchaseOrdersCard = ({ history }) => {
                 <h4 className="header-title mt-0">Purchase Orders</h4>
                 <UncontrolledDropdown className="d-inline">
                     <DropdownToggle color="info">
-                        Orders{' '}
+                        Purchase Orders{' '}
                         <i className="icon">
                             <ChevronDown></ChevronDown>
                         </i>

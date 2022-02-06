@@ -260,7 +260,7 @@ const PurchaseOrder = () => {
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
                     <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Add Entries
+                        Create
                     </Button>
                 )}
             </>

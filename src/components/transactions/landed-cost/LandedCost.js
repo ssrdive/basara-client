@@ -87,7 +87,7 @@ const LandedCost = () => {
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
                     <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Add Entries
+                        Create
                     </Button>
                 )}
             </>
@@ -155,7 +155,7 @@ const LandedCost = () => {
                             </Row>
 
                             <Button color="info" onClick={addEntry}>
-                                Add Cost Types
+                                Add Cost Item
                             </Button>
 
                             <br />

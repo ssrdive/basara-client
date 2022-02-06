@@ -41,7 +41,7 @@ const GoodReceivedNote = (props) => {
         qty: '',
         unit_price: '',
         discount_type: 'per',
-        discount_amount: '',
+        discount_amount: '0',
         totalItemPrice: 0,
     };
     const [itemsList, setItemsList] = useState([]);
@@ -81,6 +81,12 @@ const GoodReceivedNote = (props) => {
         } else {
             addEntry();
         }
+
+        setForm((prevForm) => {
+            const updatedForm = { ...prevForm, ['discountAmount']: { ...prevForm['discountAmount'] } };
+            updatedForm['discountAmount'].value = '0';
+            return updatedForm;
+        });
     }, []);
 
     const setInitialData = (data) => {
@@ -303,7 +309,7 @@ const GoodReceivedNote = (props) => {
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
                     <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Add Entries
+                        Create
                     </Button>
                 )}
             </>

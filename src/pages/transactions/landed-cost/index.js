@@ -6,10 +6,10 @@ const LandedCostCard = ({ history }) => {
     return (
         <Card>
             <CardBody>
-                <h4 className="header-title mt-0">Landed Cost</h4>
+                <h4 className="header-title mt-0">Landed Costs</h4>
                 <UncontrolledDropdown className="d-inline">
                     <DropdownToggle color="info">
-                        Landed Cost{' '}
+                        Landed Costs{' '}
                         <i className="icon">
                             <ChevronDown></ChevronDown>
                         </i>
