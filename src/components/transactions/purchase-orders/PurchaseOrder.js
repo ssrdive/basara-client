@@ -17,11 +17,15 @@ import FormInput from '../../form/FormInput';
 import Entry from '../../../components/transactions/purchase-orders/OrderItem';
 import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
-import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers/form';
+import {
+    loadDropdownMultiConditionGeneric,
+    loadDropdownConditionGeneric,
+    loadDiscountType,
+} from '../../../helpers/form';
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default () => {
+const PurchaseOrder = () => {
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
@@ -39,15 +43,38 @@ export default () => {
         qty: '',
         unit_price: '',
         discount_type: 'per',
-        discount_amount: '',
+        discount_amount: '0',
         totalItemPrice: 0,
     };
     const [entriesState, setEntriesState] = useState([blankEntry]);
+    const [itemsList, setItemsList] = useState([]);
 
     useEffect(() => {
-        loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
+        loadDropdownMultiConditionGeneric(
+            'business_partner',
+            'supplier',
+            'business_partner_type_id,business_partner_type_id',
+            '1,2',
+            'or',
+            setForm
+        );
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
+        apiAuth
+            .get('/dropdown/item')
+            .then((response) => {
+                setItemsList((prevItemsList) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        setForm((prevForm) => {
+            const updatedForm = { ...prevForm, ['discountAmount']: { ...prevForm['discountAmount'] } };
+            updatedForm['discountAmount'].value = '0';
+            return updatedForm;
+        });
     }, []);
 
     const handleOnChange = (e) => {
@@ -135,7 +162,6 @@ export default () => {
     const calculateItemTotalPrice = (idx) => {
         if (entriesState[idx].unit_price && entriesState[idx].qty) {
             const updatedEntries = [...entriesState];
-            console.log(idx + ',' + entriesState[idx].discount_type);
             var val =
                 calculatePriceAfterDiscount(
                     entriesState[idx].unit_price,
@@ -173,39 +199,51 @@ export default () => {
         setSubmitStatus({ status: null, message: '' });
 
         let formIsValid = true;
+        let newEntries = [];
+
         entriesState.forEach((entry) => {
-            if (!entry.qty || !entry.unit_price || !entry.discount_amount) formIsValid = false;
+            const exists = newEntries.find((e) => e.item_id === entry.item_id);
+            console.log(newEntries);
+            if (exists) {
+                formIsValid = false;
+                return;
+            } else {
+                newEntries.push(entry);
+            }
+            if (!entry.qty || !entry.unit_price || !entry.discount_amount) {
+                formIsValid = false;
+                return;
+            }
         });
 
         if (!formIsValid) {
             setLoading((prevLoading) => false);
             setSubmitStatus({ status: 'failure', message: 'Form validation errors' });
             return;
-        }
-
-        apiAuth
-            .post(
-                '/transaction/purchaseorder/new',
-                qs.stringify({
-                    user_id: getLoggedInUser().id,
-                    supplier_id: form.supplier.value,
-                    warehouse_id: form.warehouse.value,
-                    entries: JSON.stringify(entriesState),
-                    discount_type: form.discountType.value,
-                    discount_amount: form.discountAmount.value,
-                    remark: form.remarks.value,
-                    price_before_discount: totalPriceBeforeDiscount,
-                    total_price: totalPriceAfterDiscount,
+        } else {
+            apiAuth
+                .post(
+                    '/transaction/purchaseorder/new',
+                    qs.stringify({
+                        user_id: getLoggedInUser().id,
+                        supplier_id: form.supplier.value,
+                        warehouse_id: form.warehouse.value,
+                        entries: JSON.stringify(entriesState),
+                        discount_type: form.discountType.value,
+                        discount_amount: form.discountAmount.value,
+                        remark: form.remarks.value,
+                        total_price: totalPriceAfterDiscount,
+                    })
+                )
+                .then((response) => {
+                    setLoading((prevLoading) => false);
+                    setSubmitStatus({ status: 'success', message: `Entries issued` });
                 })
-            )
-            .then((response) => {
-                setLoading((prevLoading) => false);
-                setSubmitStatus({ status: 'success', message: `Entries issued` });
-            })
-            .catch((err) => {
-                setLoading((prevLoading) => false);
-                setSubmitStatus({ status: 'failure', message: 'Something went wrong' });
-            });
+                .catch((err) => {
+                    setLoading((prevLoading) => false);
+                    setSubmitStatus({ status: 'failure', message: 'Something went wrong' });
+                });
+        }
     };
 
     const SubmitComponent = () => {
@@ -222,7 +260,7 @@ export default () => {
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
                     <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Add Entries
+                        Create
                     </Button>
                 )}
             </>
@@ -275,6 +313,7 @@ export default () => {
                                             handleItemChange={handleItemChange}
                                             handleItemDelete={(e) => handleItemDelete(e, idx)}
                                             setItem={setItem}
+                                            itemsList={itemsList}
                                         />
                                     </div>
                                 );
@@ -344,3 +383,5 @@ export default () => {
         </Card>
     );
 };
+
+export default PurchaseOrder;

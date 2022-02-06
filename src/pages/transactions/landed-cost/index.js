@@ -2,14 +2,14 @@ import React from 'react';
 import { Card, CardBody, UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import { ChevronDown } from 'react-feather';
 
-const GoodsReceivedNotesCard = ({ history }) => {
+const LandedCostCard = ({ history }) => {
     return (
         <Card>
             <CardBody>
-                <h4 className="header-title mt-0">Goods Received Notes</h4>
+                <h4 className="header-title mt-0">Landed Costs</h4>
                 <UncontrolledDropdown className="d-inline">
                     <DropdownToggle color="info">
-                        Goods Received Notes{' '}
+                        Landed Costs{' '}
                         <i className="icon">
                             <ChevronDown></ChevronDown>
                         </i>
@@ -17,15 +17,9 @@ const GoodsReceivedNotesCard = ({ history }) => {
                     <DropdownMenu>
                         <DropdownItem
                             onClick={() => {
-                                history.push(`/transactions/goods-received-note`);
+                                history.push(`/transactions/landed-cost`);
                             }}>
                             Create
-                        </DropdownItem>
-                        <DropdownItem
-                            onClick={() => {
-                                history.push(`/transactions/goods-received-note/list`);
-                            }}>
-                            View All
                         </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -34,4 +28,4 @@ const GoodsReceivedNotesCard = ({ history }) => {
     );
 };
 
-export default GoodsReceivedNotesCard;
+export default LandedCostCard;

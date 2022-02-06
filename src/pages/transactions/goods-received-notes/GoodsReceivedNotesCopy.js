@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 
 import PageTitle from '../../../components/PageTitle';
 import GoodReceivedNote from '../../../components/transactions/goods-received-notes/GoodReceivedNote';
 
-export default ({ match }) => {
+const GoodsReceivedNotesCopy = ({ match }) => {
     const id = match.params.id;
     return (
         <React.Fragment>
@@ -28,3 +28,5 @@ export default ({ match }) => {
         </React.Fragment>
     );
 };
+
+export default GoodsReceivedNotesCopy;

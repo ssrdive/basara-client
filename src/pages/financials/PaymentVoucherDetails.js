@@ -5,7 +5,7 @@ import { apiAuth } from '../../basara-api';
 
 import logo from '../../assets/images/logo.png';
 
-export default ({ match }) => {
+const PaymentVoucherDetailsPage = ({ match }) => {
     const id = match.params.id;
 
     const [receipts, setReceipts] = useState(null);
@@ -161,3 +161,5 @@ export default ({ match }) => {
         </React.Fragment>
     );
 };
+
+export default PaymentVoucherDetailsPage;

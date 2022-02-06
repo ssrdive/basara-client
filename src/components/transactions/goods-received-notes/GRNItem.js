@@ -4,7 +4,7 @@ import { apiAuth } from '../../../basara-api';
 
 import FormInput from '../../form/FormInput';
 
-export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem }) => {
+const GRNItem = ({ idx, entriesState, handleItemChangeCommon, handleItemChange, handleItemDelete, setItem, itemsList, }) => {
     const [models, setModels] = useState([]);
 
     const discount_type_options = [
@@ -13,18 +13,23 @@ export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, h
     ];
 
     useEffect(() => {
-        apiAuth
-            .get('/dropdown/item')
-            .then((response) => {
-                setModels((prevModels) => {
-                    return response.data;
+        if (itemsList == null || itemsList.length == 0) {
+            apiAuth
+                .get('/dropdown/item')
+                .then((response) => {
+                    setModels((prevModels) => {
+                        return response.data;
+                    });
+                    if (response.data.length > 0)
+                        setItem(idx, entriesState[idx].item_id ? entriesState[idx].item_id : response.data[0].id);
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-                if (response.data.length > 0)
-                    setItem(idx, entriesState[idx].item_id ? entriesState[idx].item_id : response.data[0].id);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        } else {
+            setModels(itemsList);
+            setItem(idx, itemsList[0].id);
+        }
         // eslint-disable-next-line
     }, []);
 
@@ -106,3 +111,5 @@ export default ({ idx, entriesState, handleItemChangeCommon, handleItemChange, h
         </Form>
     );
 };
+
+export default GRNItem;

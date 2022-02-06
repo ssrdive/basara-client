@@ -21,7 +21,7 @@ import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-export default (props) => {
+const GoodReceivedNote = (props) => {
     const orderId = props.orderId;
 
     const [loading, setLoading] = useState(false);
@@ -41,9 +41,10 @@ export default (props) => {
         qty: '',
         unit_price: '',
         discount_type: 'per',
-        discount_amount: '',
+        discount_amount: '0',
         totalItemPrice: 0,
     };
+    const [itemsList, setItemsList] = useState([]);
 
     const [entriesState, setEntriesState] = useState([]);
 
@@ -51,6 +52,16 @@ export default (props) => {
         loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
+        apiAuth
+            .get('/dropdown/item')
+            .then((response) => {
+                setItemsList((prevItemsList) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
         if (orderId != null && orderId.trim() != '') {
             const fetchDetails = async () => {
@@ -70,6 +81,12 @@ export default (props) => {
         } else {
             addEntry();
         }
+
+        setForm((prevForm) => {
+            const updatedForm = { ...prevForm, ['discountAmount']: { ...prevForm['discountAmount'] } };
+            updatedForm['discountAmount'].value = '0';
+            return updatedForm;
+        });
     }, []);
 
     const setInitialData = (data) => {
@@ -77,7 +94,6 @@ export default (props) => {
         let entries = [];
         var totalPriceBeforeDiscount = 0;
         for (let i = 0; i < itemsList.length; i++) {
-            console.log(i + ',' + itemsList[i].discount_type.String);
             var totalItemPrice =
                 calculatePriceAfterDiscount(
                     itemsList[i].unit_price.String,
@@ -153,8 +169,13 @@ export default (props) => {
     const handleItemDelete = (e, idx) => {
         e.preventDefault();
         const updatedEntries = [...entriesState];
+        let currentTotalPrice = totalPriceBeforeDiscount - updatedEntries[idx].totalItemPrice;
         updatedEntries.splice(idx, 1);
         setEntriesState(updatedEntries);
+        setTotalPriceBeforeDiscount(currentTotalPrice);
+        setTotalPriceAfterDiscount(
+            calculatePriceAfterDiscount(currentTotalPrice, form.discountType.value, form.discountAmount.value)
+        );
     };
 
     const setItem = (idx, item) => {
@@ -202,7 +223,6 @@ export default (props) => {
     const calculateItemTotalPrice = (idx) => {
         if (entriesState[idx].unit_price && entriesState[idx].qty) {
             const updatedEntries = [...entriesState];
-            console.log(idx + ',' + entriesState[idx].discount_type);
             var val =
                 calculatePriceAfterDiscount(
                     entriesState[idx].unit_price,
@@ -262,7 +282,6 @@ export default (props) => {
                     discount_type: form.discountType.value,
                     discount_amount: form.discountAmount.value,
                     remark: form.remarks.value,
-                    price_before_discount: totalPriceBeforeDiscount,
                     total_price: totalPriceAfterDiscount,
                 })
             )
@@ -290,7 +309,7 @@ export default (props) => {
                     <Spinner className="m-2" type="grow" color="success" />
                 ) : (
                     <Button color="success" type="submit" onClick={submitFormHandler}>
-                        Add Entries
+                        Create
                     </Button>
                 )}
             </>
@@ -343,6 +362,7 @@ export default (props) => {
                                             handleItemChange={handleItemChange}
                                             handleItemDelete={(e) => handleItemDelete(e, idx)}
                                             setItem={setItem}
+                                            itemsList={itemsList}
                                         />
                                     </div>
                                 );
@@ -412,3 +432,5 @@ export default (props) => {
         </Card>
     );
 };
+
+export default GoodReceivedNote;

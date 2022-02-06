@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 
 import PageTitle from '../../../components/PageTitle';
 import GoodReceivedNote from '../../../components/transactions/goods-received-notes/GoodReceivedNote';
 
-export default () => {
+const GoodsReceivedNotesPage = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -27,3 +27,5 @@ export default () => {
         </React.Fragment>
     );
 };
+
+export default GoodsReceivedNotesPage;

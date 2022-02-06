@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 
 import PageTitle from '../../../components/PageTitle';
 import PurchaseOrder from '../../../components/transactions/purchase-orders/PurchaseOrder';
 
-export default () => {
+const PurchaseOrderPage = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -27,3 +27,5 @@ export default () => {
         </React.Fragment>
     );
 };
+
+export default PurchaseOrderPage;

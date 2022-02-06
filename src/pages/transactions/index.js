@@ -4,8 +4,9 @@ import { Row, Col } from 'reactstrap';
 import PageTitle from '../../components/PageTitle';
 import PurchaseOrder from './purchase-orders';
 import GoodsReceivedNotes from './goods-received-notes';
+import LandedCost from './landed-cost';
 
-export default ({ history }) => {
+const TransactionsPage = ({ history }) => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -31,9 +32,18 @@ export default ({ history }) => {
                         </Col>
                     </Row>
                 </Col>
+                <Col md={4}>
+                    <Row md={12}>
+                        <Col md={12}>
+                            <LandedCost history={history} />
+                        </Col>
+                    </Row>
+                </Col>
             </Row>
 
             <Row></Row>
         </React.Fragment>
     );
 };
+
+export default TransactionsPage;

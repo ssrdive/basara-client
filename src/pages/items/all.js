@@ -5,7 +5,7 @@ import { apiAuth } from '../../basara-api';
 
 import PageTitle from '../../components/PageTitle';
 
-export default () => {
+const AllItemsPage = () => {
     const [items, setItems] = useState(null);
 
     useEffect(() => {
@@ -86,3 +86,5 @@ export default () => {
         </React.Fragment>
     );
 };
+
+export default AllItemsPage;

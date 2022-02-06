@@ -2,14 +2,14 @@ import React from 'react';
 import { Card, CardBody, UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import { ChevronDown } from 'react-feather';
 
-export default ({ history }) => {
+const PurchaseOrdersCard = ({ history }) => {
     return (
         <Card>
             <CardBody>
                 <h4 className="header-title mt-0">Purchase Orders</h4>
                 <UncontrolledDropdown className="d-inline">
                     <DropdownToggle color="info">
-                        Orders{' '}
+                        Purchase Orders{' '}
                         <i className="icon">
                             <ChevronDown></ChevronDown>
                         </i>
@@ -33,3 +33,5 @@ export default ({ history }) => {
         </Card>
     );
 };
+
+export default PurchaseOrdersCard;

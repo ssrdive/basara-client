@@ -2,9 +2,9 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 
 import PageTitle from '../../../components/PageTitle';
-import PurchaseOrderList from '../../../components/transactions/purchase-orders/PurchaseOrderList';
+import LandedCost from '../../../components/transactions/landed-cost/LandedCost';
 
-const PurchaseOrderListPage = () => {
+const LandedCostPage = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -12,20 +12,20 @@ const PurchaseOrderListPage = () => {
                     <PageTitle
                         breadCrumbItems={[
                             { label: 'Transactions', path: '/transactions' },
-                            { label: 'Purchase Orders List', path: '#', active: true },
+                            { label: 'Landed Cost', path: '#', active: true },
                         ]}
-                        title={'Purchase Orders List'}
+                        title={'Landed Cost'}
                     />
                 </Col>
             </Row>
 
             <Row>
-                <Col md={12}>
-                    <PurchaseOrderList />
+                <Col>
+                    <LandedCost />
                 </Col>
             </Row>
         </React.Fragment>
     );
 };
 
-export default PurchaseOrderListPage;
+export default LandedCostPage;
