@@ -108,14 +108,15 @@ export const loadDropdownGRNGeneric = async (name, setForm) => {
     try {
         const response = await apiAuth.get(`/dropdown/custom/grn`);
 
-        console.log(response.data);
-        setForm((prevForm) => {
-            const updatedForm = {
-                ...prevForm,
-                [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
-            };
-            return updatedForm;
-        });
+        if (response.data != null && response.data.length != 0) {
+            setForm((prevForm) => {
+                const updatedForm = {
+                    ...prevForm,
+                    [name]: { ...prevForm[name], options: response.data, value: response.data[0].id },
+                };
+                return updatedForm;
+            });
+        }
     } catch (err) {
         console.log(err);
     }

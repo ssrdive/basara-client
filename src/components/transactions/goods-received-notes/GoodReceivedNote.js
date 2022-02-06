@@ -94,19 +94,14 @@ const GoodReceivedNote = (props) => {
         let entries = [];
         var totalPriceBeforeDiscount = 0;
         for (let i = 0; i < itemsList.length; i++) {
-            var totalItemPrice =
-                calculatePriceAfterDiscount(
-                    itemsList[i].unit_price.String,
-                    itemsList[i].discount_type.String,
-                    itemsList[i].discount_amount.String
-                ) * itemsList[i].quantity.String;
+            var totalItemPrice = parseFloat(itemsList[i].unit_price.String) * parseFloat(itemsList[i].quantity.String);
 
             entries.push({
                 item_id: itemsList[i].item_id.String,
                 qty: itemsList[i].quantity.String,
                 unit_price: itemsList[i].unit_price.String,
-                discount_type: itemsList[i].discount_type.String,
-                discount_amount: itemsList[i].discount_amount.String,
+                discount_type: 'per',
+                discount_amount: 0,
                 totalItemPrice: totalItemPrice,
             });
             totalPriceBeforeDiscount = totalPriceBeforeDiscount + totalItemPrice;

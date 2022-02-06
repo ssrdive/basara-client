@@ -72,9 +72,20 @@ const OrderItem = ({
                         onChange={handleItemChange}
                     />
                 </Col>
+                <Col style={{ textAlign: 'right' }}>
+                    <Label style={{ marginTop: '0.5rem' }} for="text">
+                        {entriesState[idx].totalItemPrice}
+                        {/* {entriesState[idx].discount_amount} */}
+                    </Label>
+                </Col>
+                <Col lg={1}>
+                    <Button color="warning" onClick={handleItemDelete}>
+                        X
+                    </Button>
+                </Col>
             </Row>
             <Row>
-                <Col lg={2}>
+                {/* <Col lg={2}>
                     <Label style={{ marginTop: '0.5rem' }} for="text">
                         Discount :
                     </Label>
@@ -98,18 +109,7 @@ const OrderItem = ({
                         onChange={handleItemChange}
                     />
                 </Col>
-                <Col></Col>
-                <Col style={{ textAlign: 'right' }}>
-                    <Label style={{ marginTop: '0.5rem' }} for="text">
-                        {entriesState[idx].totalItemPrice}
-                        {/* {entriesState[idx].discount_amount} */}
-                    </Label>
-                </Col>
-                <Col lg={1}>
-                    <Button color="warning" onClick={handleItemDelete}>
-                        X
-                    </Button>
-                </Col>
+                <Col></Col> */}
             </Row>
             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
             <br />

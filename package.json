@@ -18,7 +18,6 @@
         "draftjs-to-html": "^0.8.4",
         "jwt-decode": "^2.2.0",
         "metismenujs": "^1.1.0",
-        "node-sass": "^4.13.1",
         "qs": "^6.9.1",
         "react": "^16.9.0",
         "react-albus": "^2.0.0",
@@ -46,6 +45,7 @@
         "reactstrap": "^8.10.0",
         "redux": "^4.0.4",
         "redux-saga": "^1.1.1",
+        "sass": "^1.49.7",
         "sortablejs": "^1.10.0"
     },
     "scripts": {
