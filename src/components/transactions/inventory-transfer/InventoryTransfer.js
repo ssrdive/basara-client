@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import qs from 'qs';
 import FormInput from '../../form/FormInput';
-import Entry from '../../../components/transactions/purchase-orders/OrderItem';
+import TransferItem from '../../../components/transactions/inventory-transfer/TransferItem';
 import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
 import {
@@ -25,40 +25,25 @@ import {
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
-const PurchaseOrder = () => {
+const InventoryTransfer = () => {
     const [loading, setLoading] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ status: null, message: '' });
     const [form, setForm] = useState({
-        supplier: DROPDOWN_DEFAULT,
-        warehouse: DROPDOWN_DEFAULT,
+        from_warehouse: DROPDOWN_DEFAULT,
+        to_warehouse: DROPDOWN_DEFAULT,
         remarks: TEXTAREA_INPUT_OPTIONAL,
-        discountType: DROPDOWN_DEFAULT,
-        discountAmount: TEXT_INPUT_OPTIONAL,
     });
 
-    const [totalPriceBeforeDiscount, setTotalPriceBeforeDiscount] = useState(0);
-    const [totalPriceAfterDiscount, setTotalPriceAfterDiscount] = useState(0);
     const blankEntry = {
         item_id: 0,
-        qty: '',
-        unit_price: '',
-        discount_type: 'per',
-        discount_amount: '0',
-        totalItemPrice: 0,
+        qty: 0,
     };
     const [entriesState, setEntriesState] = useState([blankEntry]);
     const [itemsList, setItemsList] = useState([]);
 
     useEffect(() => {
-        loadDropdownMultiConditionGeneric(
-            'business_partner',
-            'supplier',
-            'business_partner_type_id,business_partner_type_id',
-            '3,4',
-            'or',
-            setForm
-        );
-        loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
+        loadDropdownConditionGeneric('business_partner', 'from_warehouse', 'business_partner_type_id', 5, setForm);
+        loadDropdownConditionGeneric('business_partner', 'to_warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
         apiAuth
             .get('/dropdown/item')
@@ -84,26 +69,6 @@ const PurchaseOrder = () => {
             updatedForm[e.target.name].value = e.target.value;
             return updatedForm;
         });
-    };
-
-    // e.target.value used in here because form.discountAmount.value got the previouse value
-    const handleDiscountAmountChange = (e) => {
-        handleOnChange(e);
-        if (validateDiscount(form.discountType.value, e.target.value, totalPriceBeforeDiscount)) {
-            setTotalPriceAfterDiscount(
-                calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, e.target.value)
-            );
-        }
-    };
-
-    // e.target.value used in here because form.discountType.value got the previouse value
-    const handleDiscountTypeChange = (e) => {
-        handleOnChange(e);
-        if (validateDiscount(e.target.value, form.discountAmount.value, totalPriceBeforeDiscount)) {
-            setTotalPriceAfterDiscount(
-                calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, e.target.value)
-            );
-        }
     };
 
     const addEntry = () => {
@@ -133,16 +98,6 @@ const PurchaseOrder = () => {
         handleItemChangeCommon(e);
         const updatedEntries = [...entriesState];
         const idx = e.target.dataset.idx;
-        if (
-            validateDiscount(
-                updatedEntries[idx]['discount_type'],
-                updatedEntries[idx]['discount_amount'],
-                updatedEntries[idx]['unit_price']
-            )
-        ) {
-            calculateItemTotalPrice(e.target.dataset.idx);
-            calculateTotalPrice();
-        }
     };
 
     const validateDiscount = (discountType, discountAmount, compareAmount) => {
@@ -157,28 +112,6 @@ const PurchaseOrder = () => {
             setSubmitStatus({ status: null, message: '' });
         }
         return true;
-    };
-
-    const calculateItemTotalPrice = (idx) => {
-        if (entriesState[idx].unit_price && entriesState[idx].qty) {
-            const updatedEntries = [...entriesState];
-            var val =
-                calculatePriceAfterDiscount(
-                    entriesState[idx].unit_price,
-                    entriesState[idx].discount_type,
-                    entriesState[idx].discount_amount
-                ) * entriesState[idx].qty;
-
-            updatedEntries[idx]['totalItemPrice'] = val;
-        }
-    };
-
-    const calculateTotalPrice = () => {
-        var totalPriceBeforeDiscount = entriesState.reduce((totalPrice, item) => totalPrice + item.totalItemPrice, 0);
-        setTotalPriceBeforeDiscount(totalPriceBeforeDiscount);
-        setTotalPriceAfterDiscount(
-            calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, form.discountAmount.value)
-        );
     };
 
     const calculatePriceAfterDiscount = (priceBeforeDiscount, discountType, discountAmount) => {
@@ -210,11 +143,17 @@ const PurchaseOrder = () => {
             } else {
                 newEntries.push(entry);
             }
-            if (!entry.qty || !entry.unit_price || !entry.discount_amount) {
+            if (!entry.qty || parseInt(entry.qty) == 0 ) {
                 formIsValid = false;
                 return;
             }
         });
+
+        if (parseInt(form.from_warehouse.value) === parseInt(form.to_warehouse.value)) {
+            setLoading((prevLoading) => false);
+            setSubmitStatus({ status: 'failure', message: 'From and To Warehouse cannot be the same' });
+            return;
+        }
 
         if (!formIsValid) {
             setLoading((prevLoading) => false);
@@ -223,16 +162,13 @@ const PurchaseOrder = () => {
         } else {
             apiAuth
                 .post(
-                    '/transaction/purchaseorder/new',
+                    '/transaction/inventorytransfer/new',
                     qs.stringify({
                         user_id: getLoggedInUser().id,
-                        supplier_id: form.supplier.value,
-                        warehouse_id: form.warehouse.value,
+                        from_warehouse_id: form.from_warehouse.value,
+                        to_warehouse_id: form.to_warehouse.value,
                         entries: JSON.stringify(entriesState),
-                        discount_type: form.discountType.value,
-                        discount_amount: form.discountAmount.value,
                         remark: form.remarks.value,
-                        total_price: totalPriceAfterDiscount,
                     })
                 )
                 .then((response) => {
@@ -270,27 +206,27 @@ const PurchaseOrder = () => {
     return (
         <Card>
             <CardBody>
-                <h4 className="header-title mt-0">Purchase Order</h4>
+                <h4 className="header-title mt-0">Inventory Transfer</h4>
                 <Row>
                     <Col lg={12}>
                         <Form>
                             <Row>
                                 <Col lg={6}>
-                                    <Label for="text">Supplier</Label>
+                                    <Label for="text">From Warehouse</Label>
                                     <FormGroup>
                                         <FormInput
-                                            {...form['supplier']}
-                                            name="supplier"
+                                            {...form['from_warehouse']}
+                                            name="from_warehouse"
                                             handleOnChange={handleOnChange}
                                         />
                                     </FormGroup>
                                 </Col>
                                 <Col lg={6}>
-                                    <Label for="text">Warehouse</Label>
+                                    <Label for="text">To Warehouse</Label>
                                     <FormGroup>
                                         <FormInput
-                                            {...form['warehouse']}
-                                            name="warehouse"
+                                            {...form['to_warehouse']}
+                                            name="to_warehouse"
                                             handleOnChange={handleOnChange}
                                         />
                                     </FormGroup>
@@ -306,7 +242,7 @@ const PurchaseOrder = () => {
                             {entriesState.map((val, idx) => {
                                 return (
                                     <div key={idx} xs={12} sm={12} md={12}>
-                                        <Entry
+                                        <TransferItem
                                             idx={idx}
                                             entriesState={entriesState}
                                             handleItemChangeCommon={handleItemChangeCommon}
@@ -319,54 +255,6 @@ const PurchaseOrder = () => {
                                 );
                             })}
                             <br />
-                            <Row>
-                                <Col style={{ textAlign: 'right' }}>
-                                    <Label>_________________</Label>
-                                </Col>
-                                <Col lg={1}></Col>
-                            </Row>
-                            <Row>
-                                <Col></Col>
-                                <Col lg={3} style={{ textAlign: 'right' }}>
-                                    <Label style={{ marginTop: '0.5rem' }} for="text">
-                                        {totalPriceBeforeDiscount}
-                                    </Label>
-                                </Col>
-                                <Col lg={1}></Col>
-                            </Row>
-                            <FormGroup>
-                                <Row>
-                                    <Col lg={2}>
-                                        <Label style={{ marginTop: '0.5rem' }} for="text">
-                                            Order Discount :
-                                        </Label>
-                                    </Col>
-                                    <Col lg={2}>
-                                        <FormInput
-                                            {...form['discountType']}
-                                            name="discountType"
-                                            type="select"
-                                            handleOnChange={handleDiscountTypeChange}
-                                        />
-                                    </Col>
-                                    <Col lg={3}>
-                                        <Input
-                                            type="number"
-                                            name="discountAmount"
-                                            placeholder="Amount / Percentage Value"
-                                            value={form.discountAmount.value}
-                                            onChange={handleDiscountAmountChange}
-                                        />
-                                    </Col>
-                                    <Col style={{ textAlign: 'right' }}>Total Price : </Col>
-                                    <Col style={{ textAlign: 'right' }}>
-                                        <Label style={{ marginTop: '0.5rem' }} for="text">
-                                            {totalPriceAfterDiscount}
-                                        </Label>
-                                    </Col>
-                                    <Col lg={1}></Col>
-                                </Row>
-                            </FormGroup>
                             <FormGroup>
                                 <FormInput
                                     {...form['remarks']}
@@ -384,4 +272,4 @@ const PurchaseOrder = () => {
     );
 };
 
-export default PurchaseOrder;
+export default InventoryTransfer;

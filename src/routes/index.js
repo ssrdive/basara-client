@@ -32,6 +32,7 @@ const GoodsReceivedNoteDetails = React.lazy(() =>
 );
 const LandedCost = React.lazy(() => import('../pages/transactions/landed-cost/LandedCost'));
 const ViewStock = React.lazy(() => import('../pages/transactions/warehouse-stock/ViewStock'));
+const InventoryTransfer = React.lazy(() => import('../pages/transactions/inventory-transfer/InventoryTransfer'));
 
 const Financials = React.lazy(() => import('../pages/financials'));
 const FinancialsJournalEntry = React.lazy(() => import('../pages/financials/JournalEntry'));
@@ -258,6 +259,14 @@ const TransactionsSubRoutes = [
         name: 'View Stock',
         exact: true,
         component: ViewStock,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/transactions/inventory-transfer',
+        name: 'Inventory Transfer',
+        exact: true,
+        component: InventoryTransfer,
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
     },

@@ -17,7 +17,7 @@ import FormInput from '../../form/FormInput';
 import Entry from './GRNItem';
 import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
 
-import { loadDropdownConditionGeneric, loadDiscountType } from '../../../helpers/form';
+import { loadDropdownConditionGeneric, loadDiscountType, loadDropdownMultiConditionGeneric } from '../../../helpers/form';
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
@@ -49,7 +49,14 @@ const GoodReceivedNote = (props) => {
     const [entriesState, setEntriesState] = useState([]);
 
     useEffect(() => {
-        loadDropdownConditionGeneric('business_partner', 'supplier', 'business_partner_type_id', 1, setForm);
+        loadDropdownMultiConditionGeneric(
+            'business_partner',
+            'supplier',
+            'business_partner_type_id,business_partner_type_id',
+            '3,4',
+            'or',
+            setForm
+        );
         loadDropdownConditionGeneric('business_partner', 'warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
         apiAuth

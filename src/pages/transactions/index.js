@@ -6,6 +6,7 @@ import PurchaseOrder from './purchase-orders';
 import GoodsReceivedNotes from './goods-received-notes';
 import LandedCost from './landed-cost';
 import WarehouseStockCard from './warehouse-stock/WarehouseStockCard';
+import InventoryTransferCard from './inventory-transfer/InventoryTransferCard';
 
 const TransactionsPage = ({ history }) => {
     return (
@@ -43,6 +44,13 @@ const TransactionsPage = ({ history }) => {
             </Row>
 
             <Row>
+                <Col md={4}>
+                    <Row md={12}>
+                        <Col md={12}>
+                            <InventoryTransferCard history={history} />
+                        </Col>
+                    </Row>
+                </Col>
                 <Col md={4}>
                     <Row md={12}>
                         <Col md={12}>
