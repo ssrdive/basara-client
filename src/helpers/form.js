@@ -125,3 +125,18 @@ export const loadDropdownGRNGeneric = async (name, setForm) => {
         console.log(err);
     }
 };
+
+export const loadOptionalDropdownGeneric = async (type, name, label, setForm) => {
+    try {
+        const response = await apiAuth.get(`/dropdown/${type}`);
+        setForm(prevForm => {
+            const updatedForm = {
+                ...prevForm,
+                [name]: { ...prevForm[name], options: [{ id: "", name: `Select ${label}`},...response.data], value: "" },
+            };
+            return updatedForm;
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};

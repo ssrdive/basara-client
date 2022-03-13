@@ -42,7 +42,7 @@ const GoodReceivedNote = (props) => {
         unit_price: '',
         discount_type: 'per',
         discount_amount: '0',
-        totalItemPrice: 0,
+        item_total_price: 0,
     };
     const [itemsList, setItemsList] = useState([]);
 
@@ -101,7 +101,7 @@ const GoodReceivedNote = (props) => {
         let entries = [];
         var totalPriceBeforeDiscount = 0;
         for (let i = 0; i < itemsList.length; i++) {
-            var totalItemPrice = parseFloat(itemsList[i].unit_price.String) * parseFloat(itemsList[i].quantity.String);
+            var item_total_price = parseFloat(itemsList[i].unit_price.String) * parseFloat(itemsList[i].quantity.String);
 
             entries.push({
                 item_id: itemsList[i].item_id.String,
@@ -109,9 +109,9 @@ const GoodReceivedNote = (props) => {
                 unit_price: itemsList[i].unit_price.String,
                 discount_type: 'per',
                 discount_amount: '0',
-                totalItemPrice: totalItemPrice,
+                item_total_price: item_total_price,
             });
-            totalPriceBeforeDiscount = totalPriceBeforeDiscount + totalItemPrice;
+            totalPriceBeforeDiscount = totalPriceBeforeDiscount + item_total_price;
         }
         setEntriesState(entries);
         setTotalPriceBeforeDiscount(totalPriceBeforeDiscount);
@@ -171,7 +171,7 @@ const GoodReceivedNote = (props) => {
     const handleItemDelete = (e, idx) => {
         e.preventDefault();
         const updatedEntries = [...entriesState];
-        let currentTotalPrice = totalPriceBeforeDiscount - updatedEntries[idx].totalItemPrice;
+        let currentTotalPrice = totalPriceBeforeDiscount - updatedEntries[idx].item_total_price;
         updatedEntries.splice(idx, 1);
         setEntriesState(updatedEntries);
         setTotalPriceBeforeDiscount(currentTotalPrice);
@@ -232,12 +232,12 @@ const GoodReceivedNote = (props) => {
                     entriesState[idx].discount_amount
                 ) * entriesState[idx].qty;
 
-            updatedEntries[idx]['totalItemPrice'] = val;
+            updatedEntries[idx]['item_total_price'] = val;
         }
     };
 
     const calculateTotalPrice = () => {
-        var totalPriceBeforeDiscount = entriesState.reduce((totalPrice, item) => totalPrice + item.totalItemPrice, 0);
+        var totalPriceBeforeDiscount = entriesState.reduce((totalPrice, item) => totalPrice + item.item_total_price, 0);
         setTotalPriceBeforeDiscount(totalPriceBeforeDiscount);
         setTotalPriceAfterDiscount(
             calculatePriceAfterDiscount(totalPriceBeforeDiscount, form.discountType.value, form.discountAmount.value)
@@ -412,7 +412,7 @@ const GoodReceivedNote = (props) => {
                                     <Col style={{ textAlign: 'right' }}>Total Price : </Col>
                                     <Col style={{ textAlign: 'right' }}>
                                         <Label style={{ marginTop: '0.5rem' }} for="text">
-                                            {totalPriceAfterDiscount}
+                                            {totalPriceAfterDiscount.toLocaleString()}
                                         </Label>
                                     </Col>
                                     <Col lg={1}></Col>

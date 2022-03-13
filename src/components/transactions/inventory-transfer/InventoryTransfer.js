@@ -15,7 +15,7 @@ import {
 import qs from 'qs';
 import FormInput from '../../form/FormInput';
 import TransferItem from '../../../components/transactions/inventory-transfer/TransferItem';
-import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '../../../constants/formValues';
+import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT } from '../../../constants/formValues';
 
 import {
     loadDropdownMultiConditionGeneric,
