@@ -32,6 +32,8 @@ const ViewStock = ({warehouse_id}) => {
                     <thead>
                         <tr>
                             <th>Warehouse Name</th>
+                            <th>Item ID</th>
+                            <th>Foreign ID</th>
                             <th>Item Name</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
@@ -42,9 +44,11 @@ const ViewStock = ({warehouse_id}) => {
                             return (
                                 <tr key={index}>
                                     <td>{result.warehouse_name}</td>
+                                    <td><Link to={`/items/edit/${result.id}`} className="subject">{result.item_id}</Link></td>
+                                    <td>{result.foreign_id}</td>
                                     <td>{result.item_name}</td>
                                     <td>{result.quantity}</td>
-                                    <td>{result.price}</td>
+                                    <td>{result.price.toLocaleString()}</td>
                                 </tr>
                             );
                         })}
