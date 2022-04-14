@@ -44,6 +44,9 @@ const FinancialsPaymentVouchers = React.lazy(() => import('../pages/financials/P
 const FinancialsPaymentVoucherDetails = React.lazy(() => import('../pages/financials/PaymentVoucherDetails'));
 const FinancialsDeposit = React.lazy(() => import('../pages/financials/Deposit'));
 const FinancialsTransaction = React.lazy(() => import('../pages/financials/Transaction'));
+const FinancialsEntryAudit = React.lazy(() => import('../pages/financials/JournalEntryAudit'));
+const FinancialsBalanceSheet = React.lazy(() => import('../pages/financials/BalanceSheet'));
+const FinancialsIncomeStatement = React.lazy(() => import('../pages/financials/IncomeStatement'));
 
 const Reporting = React.lazy(() => import('../pages/reporting'));
 const ReportingInvoiceSearch = React.lazy(() => import('../pages/reporting/invoicesearch'));
@@ -378,6 +381,30 @@ const financialsSubRoutes = [
         component: FinancialsTransaction,
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
+    },
+    {
+        path: '/financials/entryaudit',
+        name: 'Journal Entry Audit',
+        exact: true,
+        component: FinancialsEntryAudit,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager']
+    },
+    {
+        path: '/financials/balancesheet',
+        name: 'Balance Sheet',
+        exact: true,
+        component: FinancialsBalanceSheet,
+        route: PrivateRoute,
+        roles: ['Admin']
+    },
+    {
+        path: '/financials/incomestatement',
+        name: 'Income Statement',
+        exact: true,
+        component: FinancialsIncomeStatement,
+        route: PrivateRoute,
+        roles: ['Admin']
     },
 ];
 
