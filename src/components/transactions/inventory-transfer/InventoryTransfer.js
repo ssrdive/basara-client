@@ -46,7 +46,7 @@ const InventoryTransfer = () => {
         loadDropdownConditionGeneric('business_partner', 'to_warehouse', 'business_partner_type_id', 5, setForm);
         loadDiscountType(setForm);
         apiAuth
-            .get('/dropdown/item')
+            .get('/dropdown/custom/items')
             .then((response) => {
                 setItemsList((prevItemsList) => {
                     return response.data;

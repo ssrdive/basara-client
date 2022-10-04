@@ -23,7 +23,7 @@ const TransferItem = ({
     useEffect(() => {
         if (itemsList == null || itemsList.length == 0) {
             apiAuth
-                .get('/dropdown/item')
+                .get('/dropdown/custom/items')
                 .then((response) => {
                     setModels((prevModels) => {
                         return response.data;
