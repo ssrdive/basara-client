@@ -33,12 +33,14 @@ const PurchaseOrderDetailsPage = ({ match }) => {
     return (
         <React.Fragment>
             <Row>
-                <Col md={4}>{/* <img alt="Agrivest Logo" src={logo} style={{ width: '80px' }} /> */}</Col>
+                {/* <Col md={4}>
+                    <img alt="FarmGear Logo" src={logo} style={{ width: '80px' }} />
+                </Col> */}
                 <Col md={4}></Col>
                 <Col md={4}>
-                    <h3 style={{ paddingBottom: '0', marginBottom: '0' }}>Agrivest Private Limited</h3>
-                    <p style={{ padding: '0', margin: '0' }}>Hospital Junction Polonnaruwa</p>
-                    <p style={{ padding: '0', margin: '0' }}>info@agrivest.lk &nbsp;&nbsp; 9427 222 22 79</p>
+                    <h3 style={{ paddingBottom: '0', marginBottom: '0' }}>FarmGear Private Limited</h3>
+                    <p style={{ padding: '0', margin: '0' }}>No 67/A, Sirisangabo Place, Polonnaruwa</p>
+                    <p style={{ padding: '0', margin: '0' }}>finance@farmgear.lk &nbsp;&nbsp; 9427 222 77 91</p>
                 </Col>
             </Row>
 
