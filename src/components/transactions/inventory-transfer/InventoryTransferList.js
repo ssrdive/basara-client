@@ -4,14 +4,14 @@ import { Card, CardBody, Table, Spinner } from 'reactstrap';
 
 import { apiAuth } from '../../../basara-api';
 
-const GoodsReceivedNotesList = () => {
+const InventoryTransferList = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading((prevLoading) => true);
         apiAuth
-            .get(`/transaction/goodsreceivednote/list`)
+            .get(`/transaction/inventorytransfer/list`)
             .then((res) => {
                 setLoading((prevLoading) => false);
                 if (res.data === null) setResults((prevResults) => []);
@@ -26,14 +26,19 @@ const GoodsReceivedNotesList = () => {
     return (
         <Card>
             <CardBody>
-                <h4 className="header-title mt-0 mb-1">Goods Received Notes List</h4>
+                <h4 className="header-title mt-0 mb-1">Inventory Transfer List</h4>
                 <Table className="mb-0" responsive={true} striped>
                     <thead>
                         <tr>
-                            <th>GRN ID</th>
-                            <th>Supplier</th>
-                            <th>Warehouse</th>
-                            <th>Total Order Price</th>
+                            <th>ID</th>
+                            <th>Created</th>
+                            <th>Issuer</th>
+                            <th>From Warehouse</th>
+                            <th>To Warehouse</th>
+                            <th>Resolution</th>
+                            <th>Resolved By</th>
+                            <th>Resolved On</th>
+                            <th>Resolution Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,15 +46,18 @@ const GoodsReceivedNotesList = () => {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        <Link to={`/transactions/goods-received-note/${result.grn_id}`}>
-                                            {result.grn_id}
+                                        <Link to={`/transactions/inventory-transfer/${result.inventory_transfer_id}`}>
+                                            {result.inventory_transfer_id}
                                         </Link>
                                     </td>
-                                    <td>{result.supplier}</td>
-                                    <td>{result.warehouse}</td>
-                                    <td>
-                                        <b>LKR {result.total_price.toLocaleString()}</b>
-                                    </td>
+                                    <td>{result.created}</td>
+                                    <td>{result.issuer}</td>
+                                    <td>{result.from_warehouse}</td>
+                                    <td>{result.to_warehouse}</td>
+                                    <td>{result.resolution.String}</td>
+                                    <td>{result.resolved_by.String}</td>
+                                    <td>{result.resolved_on.String}</td>
+                                    <td>{result.resolution_remarks.String}</td>
                                 </tr>
                             );
                         })}
@@ -61,4 +69,4 @@ const GoodsReceivedNotesList = () => {
     );
 };
 
-export default GoodsReceivedNotesList;
+export default InventoryTransferList;

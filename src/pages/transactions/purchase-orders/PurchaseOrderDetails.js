@@ -3,6 +3,7 @@ import { Row, Col, Button, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import { apiAuth } from '../../../basara-api';
+import logo from "../../../assets/images/logo.png";
 
 const PurchaseOrderDetailsPage = ({ match }) => {
     const id = match.params.id;
@@ -33,14 +34,14 @@ const PurchaseOrderDetailsPage = ({ match }) => {
     return (
         <React.Fragment>
             <Row>
-                {/* <Col md={4}>
+                <Col md={4}>
                     <img alt="FarmGear Logo" src={logo} style={{ width: '80px' }} />
-                </Col> */}
+                </Col>
                 <Col md={4}></Col>
                 <Col md={4}>
-                    <h3 style={{ paddingBottom: '0', marginBottom: '0' }}>FarmGear Private Limited</h3>
-                    <p style={{ padding: '0', margin: '0' }}>No 67/A, Sirisangabo Place, Polonnaruwa</p>
-                    <p style={{ padding: '0', margin: '0' }}>finance@farmgear.lk &nbsp;&nbsp; 9427 222 77 91</p>
+                    <h3 style={{ paddingBottom: '0', marginBottom: '0', textAlign: 'right' }}>FarmGear Private Limited</h3>
+                    <p style={{ padding: '0', margin: '0', textAlign: 'right' }}>No 67/A, Sirisangabo Place, Polonnaruwa</p>
+                    <p style={{ padding: '0', margin: '0', textAlign: 'right' }}>finance@farmgear.lk &nbsp;&nbsp; 9427 222 77 91</p>
                 </Col>
             </Row>
 
@@ -82,6 +83,7 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                     <Table>
                         <thead>
                             <tr>
+                                <th>Item ID</th>
                                 <th>Item Name</th>
                                 <th>Unit Price</th>
                                 <th>Quantity</th>
@@ -94,6 +96,7 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                     {purchaseOrder.order_item_details.map((item, index) => {
                                         return (
                                             <tr key={index}>
+                                                <td>{item.item_id.String}</td>
                                                 <td>{item.item_name.String}</td>
                                                 <td>{item.unit_price.String}</td>
                                                 <td>{item.quantity.String}</td>
@@ -117,12 +120,14 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                         <td style={{ textAlign: 'right' }}>
-                                            LKR {purchaseOrder.price_before_discount.String}
+                                            LKR {parseFloat(purchaseOrder.price_before_discount.String).toLocaleString()}
                                         </td>
                                     </tr>
 
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td>Discount</td>
@@ -134,11 +139,12 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                                     <tr>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                         <td>
                                             <b>Sub Total</b>
                                         </td>
                                         <td style={{ textAlign: 'right' }}>
-                                            <b>LKR {purchaseOrder.total_price.String}</b>
+                                            <b>LKR {parseFloat(purchaseOrder.total_price.String).toLocaleString()}</b>
                                         </td>
                                     </tr>
                                 </>
@@ -160,14 +166,21 @@ const PurchaseOrderDetailsPage = ({ match }) => {
                         </>
                     ) : null}
                     <Row>
-                        <Col md={6}>
+                        <Col md={4}>
                             <br />
                             <br />
                             <br />
                             <p style={{ padding: 0, margin: 0 }}>...................................................</p>
                             <p>Authorized Signature</p>
                         </Col>
-                        <Col md={6}>
+                        <Col md={4}>
+                            <br />
+                            <br />
+                            <br />
+                            <p style={{ padding: 0, margin: 0 }}>...................................................</p>
+                            <p>Security Signature</p>
+                        </Col>
+                        <Col md={4}>
                             <br />
                             <br />
                             <br />
