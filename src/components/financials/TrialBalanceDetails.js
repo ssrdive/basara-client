@@ -34,53 +34,56 @@ const TrialBalanceDetails = ({ postingdate }) => {
                 <h4 className="header-title mt-0 mb-1">Trial Balance</h4>
                 <Table className="mb-0" responsive={true} striped>
                     <thead>
-                        <tr>
-                            <th>Main Account</th>
-                            <th>Sub Account</th>
-                            <th>Account Category</th>
-                            <th>Name</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                        </tr>
+                    <tr>
+                        <th>Main Account</th>
+                        <th>Sub Account</th>
+                        <th>Account Category</th>
+                        <th>Account ID</th>
+                        <th>Name</th>
+                        <th style={{textAlign: "right"}}>Debit</th>
+                        <th style={{textAlign: "right"}}>Credit</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {results.map((result, index) => {
-                            debits = parseFloat(debits) + result.debit;
-                            credits = parseFloat(credits) + result.credit;
-                            if (result.balance !== 0) {
-                                return (
-                                    <tr key={index}>
-                                        <td>{result.main_account}</td>
-                                        <td>{result.sub_account}</td>
-                                        <td>{result.account_category}</td>
-                                        <td>
-                                            <Link to={`/financials/account/${result.id}`}>{result.account_name}</Link>
-                                        </td>
-                                        {
-                                            debitAccounts.includes(result.main_account) ?
-                                                <>
-                                                    <td style={{textAlign: "right"}}>{result.debit.toLocaleString()}</td>
-                                                    <td></td>
-                                                </> :
-                                                <>
-                                                    <td></td>
-                                                    <td style={{textAlign: "right"}}>{result.credit.toLocaleString()}</td>
-                                                </>
-                                        }
-                                    </tr>
-                                );
-                            } else {
-                                return null;
-                            }
-                        })}
-                        <tr>
-                            <td><b>Balance</b></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style={{textAlign: "right"}}><b>{parseFloat(debits.toFixed(2)).toLocaleString()}</b></td>
-                            <td style={{textAlign: "right"}}><b>{parseFloat(credits.toFixed(2)).toLocaleString()}</b></td>
-                        </tr>
+                    {results.map((result, index) => {
+                        debits = parseFloat(debits) + result.debit;
+                        credits = parseFloat(credits) + result.credit;
+                        if (result.balance !== 0) {
+                            return (
+                                <tr key={index}>
+                                    <td>{result.main_account}</td>
+                                    <td>{result.sub_account}</td>
+                                    <td>{result.account_category}</td>
+                                    <td>{result.account_id}</td>
+                                    <td>
+                                        <Link to={`/financials/account/${result.id}`}>{result.account_name}</Link>
+                                    </td>
+                                    {
+                                        debitAccounts.includes(result.main_account) ?
+                                            <>
+                                                <td style={{textAlign: "right"}}>{parseFloat(result.debit.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                                                <td></td>
+                                            </> :
+                                            <>
+                                                <td></td>
+                                                <td style={{textAlign: "right"}}>{parseFloat(result.credit.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                                            </>
+                                    }
+                                </tr>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
+                    <tr>
+                        <td><b>Balance</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style={{textAlign: "right"}}><b>{parseFloat(debits.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 2})}</b></td>
+                        <td style={{textAlign: "right"}}><b>{parseFloat(credits.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 2})}</b></td>
+                    </tr>
                     </tbody>
                 </Table>
                 {loading ? <Spinner color="primary" type="grow" /> : null}
