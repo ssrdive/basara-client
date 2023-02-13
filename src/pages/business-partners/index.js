@@ -13,7 +13,7 @@ import {
     Input,
     Button,
     UncontrolledAlert,
-    Spinner,
+    Spinner, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledDropdown,
 } from 'reactstrap';
 import { loadDropdownGeneric } from '../../helpers/form';
 
@@ -24,6 +24,7 @@ import {
     DROPDOWN_DEFAULT, 
     TEXT_INPUT_OPTIONAL, NUMBER_INPUT_OPTIONAL
 } from '../../constants/formValues';
+import {ChevronDown} from "react-feather";
 
 const FormInput = props => {
     return (
@@ -193,7 +194,40 @@ const Create = () => {
     );
 }
 
-const BusinessPartnersPage = () => {
+const BusinessPartnerBalances = ({ history }) => {
+    return (
+        <Card>
+            <CardBody>
+                <h4 className="header-title mt-0">Balances</h4>
+
+                <UncontrolledDropdown className="d-inline">
+                    <DropdownToggle color="info">
+                        Options{' '}
+                        <i className="icon">
+                            <ChevronDown></ChevronDown>
+                        </i>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem
+                            onClick={() => {
+                                history.push(`/business-partners/balances`);
+                            }}>
+                            Balances
+                        </DropdownItem>
+                        <DropdownItem
+                            onClick={() => {
+                                history.push(`/business-partners/payment`);
+                            }}>
+                            Payment
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
+            </CardBody>
+        </Card>
+    );
+}
+
+const BusinessPartnersPage = ({ history }) => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -209,7 +243,7 @@ const BusinessPartnersPage = () => {
 
             <Row>
                 <Col md={4}>
-                    
+                    <BusinessPartnerBalances history={history}/>
                 </Col>
                 <Col md={8}>
                     <Create />

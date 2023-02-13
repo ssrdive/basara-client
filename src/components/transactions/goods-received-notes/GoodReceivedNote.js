@@ -20,6 +20,9 @@ import { TEXTAREA_INPUT_OPTIONAL, DROPDOWN_DEFAULT, TEXT_INPUT_OPTIONAL } from '
 import { loadDropdownConditionGeneric, loadDiscountType, loadDropdownMultiConditionGeneric } from '../../../helpers/form';
 import { apiAuth } from '../../../basara-api';
 import { getLoggedInUser } from '../../../helpers/authUtils';
+import Flatpickr from "react-flatpickr";
+
+import { getDate } from '../../../helpers/date';
 
 const GoodReceivedNote = (props) => {
     const orderId = props.orderId;
@@ -29,6 +32,7 @@ const GoodReceivedNote = (props) => {
     const [form, setForm] = useState({
         supplier: DROPDOWN_DEFAULT,
         warehouse: DROPDOWN_DEFAULT,
+        effective_date: { value: getDate('-') },
         remarks: TEXTAREA_INPUT_OPTIONAL,
         discountType: DROPDOWN_DEFAULT,
         discountAmount: TEXT_INPUT_OPTIONAL,
@@ -280,6 +284,7 @@ const GoodReceivedNote = (props) => {
                     user_id: getLoggedInUser().id,
                     supplier_id: form.supplier.value,
                     warehouse_id: form.warehouse.value,
+                    effective_date: form.effective_date.value,
                     entries: JSON.stringify(entriesState),
                     discount_type: form.discountType.value,
                     discount_amount: form.discountAmount.value,
@@ -318,6 +323,14 @@ const GoodReceivedNote = (props) => {
         );
     };
 
+    const setDate = (value, field) => {
+        setForm(prevForm => {
+            const updatedForm = { ...prevForm, [field]: { ...prevForm[field] } };
+            updatedForm[field].value = value;
+            return updatedForm;
+        });
+    };
+
     return (
         <Card>
             <CardBody>
@@ -343,6 +356,21 @@ const GoodReceivedNote = (props) => {
                                             {...form['warehouse']}
                                             name="warehouse"
                                             handleOnChange={handleOnChange}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col lg={6}>
+                                    <Label for="text">Effective Date</Label>
+                                    <FormGroup>
+                                        <Flatpickr
+                                            value={form.effective_date.value}
+                                            onChange={(e, date) => {
+                                                setDate(date, 'effective_date');
+                                            }}
+                                            className="form-control"
                                         />
                                     </FormGroup>
                                 </Col>

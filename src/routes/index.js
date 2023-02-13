@@ -15,6 +15,9 @@ const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
 
 const BusinessPartners = React.lazy(() => import('../pages/business-partners'));
+const BusinessPartnerBalances = React.lazy(() => import('../pages/business-partners/balances'));
+const BusinessPartnerBalance = React.lazy(() => import('../pages/business-partners/balance'));
+const BusinessPartnerPayment = React.lazy(() => import('../pages/business-partners/payment'));
 
 const Transactions = React.lazy(() => import('../pages/transactions'));
 const PurchaseOrders = React.lazy(() => import('../pages/transactions/purchase-orders/PurchaseOrder'));
@@ -187,6 +190,33 @@ const BusinessPartnersRoute = {
     route: PrivateRoute,
     roles: ['Admin', 'Office Executive', 'Manager'],
 };
+
+const BusinessPartnersSubRoutes = [
+    {
+        path: '/business-partners/balances',
+        name: 'Business Partner Balances',
+        exact: true,
+        component: BusinessPartnerBalances,
+        route: PrivateRoute,
+        roles: ['Admin', 'Office Executive', 'Manager'],
+    },
+    {
+        path: '/business-partners/balance/:id',
+        name: 'Business Partner Balances',
+        exact: true,
+        component: BusinessPartnerBalance,
+        route: PrivateRoute,
+        roles: ['Admin', 'Office Executive', 'Manager'],
+    },
+    {
+        path: '/business-partners/payment',
+        name: 'Business Partner Payment',
+        exact: true,
+        component: BusinessPartnerPayment,
+        route: PrivateRoute,
+        roles: ['Admin', 'Office Executive', 'Manager'],
+    }
+]
 
 const TransactionsRoute = {
     path: '/transactions',
@@ -480,6 +510,7 @@ const allRoutes = [
     ...itemsSubRoute,
     authRoutes,
     BusinessPartnersRoute,
+    ...BusinessPartnersSubRoutes,
     TransactionsRoute,
     ...TransactionsSubRoutes,
     financialsRoute,
