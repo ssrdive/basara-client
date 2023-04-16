@@ -50,7 +50,7 @@ const IncomeStatementDetails = ({ startdate, enddate }) => {
                     </thead>
                     <tbody>
                     {results.map((result, index) => {
-                        if (result.main_account === 'Expenses') {
+                        if (result.main_account === 'Expenses' || result.main_account === 'Cost of Sales') {
                             expenses = expenses + parseFloat(result.amount);
                         } else if (result.main_account === 'Revenue' || result.main_account === 'Other Revenue') {
                             revenue = revenue + parseFloat(result.amount);
