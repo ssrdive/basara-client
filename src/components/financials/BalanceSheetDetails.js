@@ -55,7 +55,7 @@ const BalanceSheetDetails = ({ postingdate }) => {
                         }
 
                         if (result.main_account === 'Revenue' || result.main_account === 'Other Revenue'
-                            || result.main_account === 'Expenses') {
+                            || result.main_account === 'Expenses' || result.main_account === 'Cost of Sales') {
                             return null;
                         } else {
                             if (mainAccount === result.main_account) {
