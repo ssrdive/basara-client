@@ -28,7 +28,7 @@ const InvoiceSearchResults = ({ results, loading }) => {
                         {results.map((result, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{result.id}</td>
+                                    <td><Link to={`/reporting/invoiceinfo/${result.id}`}>{result.id}</Link></td>
                                     <td>{result.created}</td>
                                     <td>{result.issuer}</td>
                                     <td>{result.issuing_location}</td>

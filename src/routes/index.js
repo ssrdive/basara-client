@@ -56,6 +56,9 @@ const FinancialsIncomeStatement = React.lazy(() => import('../pages/financials/I
 
 const Reporting = React.lazy(() => import('../pages/reporting'));
 const ReportingInvoiceSearch = React.lazy(() => import('../pages/reporting/invoicesearch'));
+const InvoiceInfo = React.lazy(() =>
+    import('../pages/transactions/invoice/InvoiceInfo')
+);
 
 // const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 // const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -338,6 +341,14 @@ const reportingSubRoutes = [
         route: PrivateRoute,
         roles: ['Admin', 'Manager']
     },
+    {
+        path: '/reporting/invoiceinfo/:id',
+        name: 'Invoice Info',
+        exact: true,
+        component: InvoiceInfo,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    }
 ]
 
 const financialsRoute = {
