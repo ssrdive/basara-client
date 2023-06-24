@@ -60,6 +60,10 @@ const InvoiceInfo = React.lazy(() =>
     import('../pages/transactions/invoice/InvoiceInfo')
 );
 
+const InventoryTransferInfo = React.lazy(() =>
+    import('../pages/transactions/inventory-transfer/InventoryTransferInfo')
+);
+
 // const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 // const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
 // const EmailDetail = React.lazy(() => import('../pages/apps/Email/Detail'));
@@ -320,6 +324,14 @@ const TransactionsSubRoutes = [
         route: PrivateRoute,
         roles: ['Admin', 'Manager'],
     },
+    {
+        path: '/transactions/inventory-transfer/:id',
+        name: 'Inventory Transfer Info',
+        exact: true,
+        component: InventoryTransferInfo,
+        route: PrivateRoute,
+        roles: ['Admin', 'Manager'],
+    }
 ];
 
 const reportingRoute = {
