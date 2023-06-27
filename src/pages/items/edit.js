@@ -59,6 +59,7 @@ const EditItem = ({ match }) => {
     });
 
     const [itemDetails, setItemDetails] = useState(null);
+    const [itemStock, setItemStock] = useState(null);
 
     const fetchDetails = () => {
         apiAuth
@@ -66,6 +67,16 @@ const EditItem = ({ match }) => {
             .then((res) => {
                 if (res.data === null) setItemDetails((prevReceipts) => []);
                 else setItemDetails((prevReceipts) => res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        apiAuth
+            .get(`/item/stock/${id}`)
+            .then((res) => {
+                if (res.data === null) setItemStock((prevReceipts) => []);
+                else setItemStock((prevReceipts) => res.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -244,6 +255,45 @@ const EditItem = ({ match }) => {
                                                 </td>
                                                 <td>LKR {itemDetails.price.toLocaleString()}</td>
                                             </tr>
+                                        </tbody>
+                                    </Table>
+                                </>
+                            ) : null}
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col md={4}></Col>
+                <Col md={8}>
+                    <Card>
+                        <CardBody>
+                            <h4 className="header-title mt-0">Stock</h4>
+                            {itemStock != null ? (
+                                <>
+                                    <Table className="mb-0" responsive={true} striped>
+                                        <thead>
+                                        <tr>
+                                            <th>Warehouse</th>
+                                            <th>Item ID</th>
+                                            <th>Name</th>
+                                            <th>Qty</th>
+                                            <th>Float Qty</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {itemStock.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.warehouse}</td>
+                                                    <td>{item.item_id}</td>
+                                                    <td>{item.item_name}</td>
+                                                    <td>{item.qty}</td>
+                                                    <td>{item.float_qty}</td>
+                                                </tr>
+                                            );
+                                        })}
                                         </tbody>
                                     </Table>
                                 </>
