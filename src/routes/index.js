@@ -108,6 +108,8 @@ const ItemsAll = React.lazy(() => import('../pages/items/all'));
 const ItemEdit = React.lazy(() => import('../pages/items/edit'));
 const ItemSearch = React.lazy(() => import('../pages/items/search'));
 
+const BulkData = React.lazy(() => import('../pages/bulk-data'));
+
 // handle auth and authorization
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     <Route
@@ -472,6 +474,16 @@ const financialsSubRoutes = [
     },
 ];
 
+const bulkDataRoute = {
+    path: '/bulk-data',
+    name: 'Bulk Data',
+    icon: FeatherIcon.Database,
+    component: BulkData,
+    exact: true,
+    route: PrivateRoute,
+    roles: ['Admin', 'BulkData'],
+};
+
 // auth
 const authRoutes = {
     path: '/account',
@@ -539,9 +551,10 @@ const allRoutes = [
     financialsRoute,
     ...financialsSubRoutes,
     reportingRoute,
-    ...reportingSubRoutes
+    ...reportingSubRoutes,
+    bulkDataRoute
 ];
 
-const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute, financialsRoute, reportingRoute];
+const authProtectedRoutes = [dashboardRoute, itemsRoute, BusinessPartnersRoute, TransactionsRoute, financialsRoute, reportingRoute, bulkDataRoute];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };
