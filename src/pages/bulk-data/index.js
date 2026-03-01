@@ -101,6 +101,31 @@ class BulkData extends Component {
         }
     }
 
+    handleActionReport = async (action) => {
+        if (!this.state.selectedReportId) return;
+
+        const confirmAction = window.confirm(`Are you sure you want to ${action.toLowerCase()} this report?`);
+        if (!confirmAction) return;
+
+        this.setState({ isLoadingDetails: true });
+
+        try {
+            await apiAuth.put(`/bulk/stock/reports/${this.state.selectedReportId}/${action.toLowerCase()}`, {
+                user_id: parseInt(getLoggedInUser().id)
+            });
+            alert(`Report ${action.toLowerCase()}ed successfully!`);
+
+            // Refresh details view and list view
+            await this.fetchPendingReports();
+            await this.fetchReportDetails(this.state.selectedReportId);
+        } catch (error) {
+            console.error(`Error trying to ${action} report:`, error);
+            const errorMsg = error.response && error.response.data ? error.response.data : error.message;
+            alert(`An error occurred: ${errorMsg}`);
+            this.setState({ isLoadingDetails: false });
+        }
+    }
+
     handleFileChange = (event) => {
         this.setState({
             selectedFile: event.target.files[0],
@@ -461,6 +486,59 @@ class BulkData extends Component {
                                                                 </tbody>
                                                             </Table>
                                                         </div>
+
+                                                        {/* Admin Approval Actions */}
+                                                        {(() => {
+                                                            const currentReport = this.state.pendingReports.find(r => r.id === this.state.selectedReportId);
+                                                            if (!currentReport) return null;
+
+                                                            if (currentReport.status === 'PENDING') {
+                                                                if (getLoggedInUser().role === 'Admin') {
+                                                                    const isOwnReport = getLoggedInUser().username === currentReport.user_name;
+                                                                    return (
+                                                                        <div className="mt-3">
+                                                                            {isOwnReport ? (
+                                                                                <div className="alert alert-warning text-center mt-3 mb-0" role="alert">
+                                                                                    You cannot approve your own stock report.
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div className="text-right">
+                                                                                    <Button
+                                                                                        color="success"
+                                                                                        className="mr-2"
+                                                                                        onClick={() => this.handleActionReport('Approve')}
+                                                                                    >
+                                                                                        <i className="uil uil-check mr-1"></i> Approve
+                                                                                    </Button>
+                                                                                    <Button
+                                                                                        color="danger"
+                                                                                        onClick={() => this.handleActionReport('Reject')}
+                                                                                    >
+                                                                                        <i className="uil uil-multiply mr-1"></i> Reject
+                                                                                    </Button>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    );
+                                                                } else {
+                                                                    return (
+                                                                        <div className="alert alert-info text-center mt-3 mb-0" role="alert">
+                                                                            This report is waiting for Admin approval.
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            } else {
+                                                                return (
+                                                                    <div className={`alert text-center mt-3 mb-0 ${currentReport.status === 'APPROVED' ? 'alert-success' : 'alert-danger'}`} role="alert">
+                                                                        Status: <strong>{currentReport.status}</strong>.
+                                                                        {currentReport.action_user_name && (
+                                                                            <span> Actioned by <strong>{currentReport.action_user_name}</strong> {currentReport.action_on && currentReport.action_on.Valid ? `on ${new Date(currentReport.action_on.String).toLocaleString()}` : ''}</span>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        })()}
+
                                                     </CardBody>
                                                 </Card>
                                             </Col>
