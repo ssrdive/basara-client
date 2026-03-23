@@ -343,7 +343,7 @@ const reportingRoute = {
     component: Reporting,
     exact: true,
     route: PrivateRoute,
-    roles: ['Admin', 'Manager'],
+    roles: ['Admin', 'Office Executive', 'Manager', 'Branch User'],
 };
 
 const reportingSubRoutes = [
